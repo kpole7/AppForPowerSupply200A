@@ -1,0 +1,375 @@
+<project version="0.90" title="HardwareConnections">
+    <properties>
+        <property show="1" name="saveddate-eu">16-05-2025</property>
+        <property show="1" name="saveddate-us">2025-05-16</property>
+        <property show="1" name="savedtime">15:11</property>
+        <property show="1" name="savedfilepath">/home/krzysztof/LocalSoftware/native/powerSource200A_Svedberg/documentation/SimplifiedGeneralDiagram_0.1.qet</property>
+        <property show="1" name="savedfilename">SimplifiedGeneralDiagram_0</property>
+        <property show="1" name="saveddate">5/16/25</property>
+    </properties>
+    <newdiagrams>
+        <border cols="17" colsize="60" rowsize="80" displayrows="true" displaycols="true" rows="8"/>
+        <inset locmach="" titleblocktemplate="single-logo" version="" titleblocktemplateCollection="common" folio="%id/%total" date="null" title="" filename="" plant="" auto_page_num="" indexrev="" author="" displayAt="bottom"/>
+        <conductors dash-size="2" type="multi" function="" displaytext="1" formula="" onetextperfolio="0" bus="" horizrotatetext="0" text_color="#000000" bicolor="false" horizontal-alignment="AlignBottom" num=" " conductor_section="" tension_protocol="" cable="" condsize="1" vertical-alignment="AlignRight" numsize="7" color2="#000000" conductor_color="" vertirotatetext="270"/>
+        <report label="%f-%l%c"/>
+        <xrefs>
+            <xref master_label="%f-%l%c" showpowerctc="true" switchprefix="" powerprefix="" snapto="label" offset="40" slave_label="(%f-%l%c)" type="coil" delayprefix="" xrefpos="AlignTop" displayhas="cross"/>
+            <xref master_label="%f-%l%c" showpowerctc="true" switchprefix="" powerprefix="" snapto="label" offset="0" slave_label="(%f-%l%c)" type="commutator" delayprefix="" xrefpos="" displayhas="cross"/>
+            <xref master_label="%f-%l%c" showpowerctc="true" switchprefix="" powerprefix="" snapto="label" offset="0" slave_label="(%f-%l%c)" type="protection" delayprefix="" xrefpos="" displayhas="cross"/>
+        </xrefs>
+        <conductors_autonums current_autonum="" freeze_new_conductors="false"/>
+        <folio_autonums/>
+        <element_autonums freeze_new_elements="false" current_autonum=""/>
+    </newdiagrams>
+    <diagram cols="17" rows="8" title="" filename="" order="1" plant="" indexrev="" displayAt="bottom" freezeNewConductor="false" rowsize="80" displaycols="true" version="0.90" folio="%id/%total" colsize="60" date="null" height="660" locmach="" author="" auto_page_num="" freezeNewElement="false" displayrows="true">
+        <defaultconductor dash-size="2" type="multi" function="" displaytext="1" formula="" onetextperfolio="0" bus="" horizrotatetext="0" text_color="#000000" bicolor="false" horizontal-alignment="AlignBottom" num=" " conductor_section="" tension_protocol="" cable="" condsize="1" vertical-alignment="AlignRight" numsize="7" color2="#000000" conductor_color="" vertirotatetext="270"/>
+        <elements>
+            <element y="280" z="10" orientation="2" freezeLabel="false" x="400" type="embed://import/primitives/wire_node.elmt" uuid="{4ac65470-6fc2-4f06-a9e9-d613fbb3a603}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="0" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="280" z="10" orientation="2" freezeLabel="false" x="300" type="embed://import/primitives/wire_node.elmt" uuid="{9ee22305-88d5-499a-be41-02e9716a4cb2}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="1" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="270" z="10" orientation="0" freezeLabel="false" x="360" type="embed://import/primitives/junction_4px.elmt" uuid="{8559ea14-2ce4-45f6-8807-1f82626d44d7}" prefix="">
+                <terminals/>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="270" z="10" orientation="0" freezeLabel="false" x="340" type="embed://import/primitives/junction_4px.elmt" uuid="{7c295b30-ac9f-4529-b905-4924d5d39291}" prefix="">
+                <terminals/>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="280" z="10" orientation="2" freezeLabel="false" x="170" type="embed://import/primitives/wire_node.elmt" uuid="{65910407-ac0e-4998-a496-261da8116d38}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="2" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="280" z="10" orientation="2" freezeLabel="false" x="150" type="embed://import/primitives/wire_node.elmt" uuid="{3a6b867f-90d3-4d2e-9440-e7d32dfbcf1d}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="3" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="270" z="10" orientation="0" freezeLabel="false" x="350" type="embed://import/primitives/junction_4px.elmt" uuid="{9220ba30-c437-41d2-aa79-1a1eb1a88697}" prefix="">
+                <terminals/>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="280" z="-3" orientation="2" freezeLabel="false" x="155" type="embed://import/primitives/wire_node.elmt" uuid="{35016e78-86af-46f8-a23c-e48069e888c4}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="4" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="280" z="-2" orientation="2" freezeLabel="false" x="165" type="embed://import/primitives/wire_node.elmt" uuid="{c9d04ecd-c304-44d2-8e3a-2eec2fab7cd5}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="5" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="280" z="10" orientation="2" freezeLabel="false" x="160" type="embed://import/primitives/wire_node.elmt" uuid="{faea466c-3c26-4556-a519-38ea0e3fe0d9}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="6" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="305" z="10" orientation="3" freezeLabel="false" x="350" type="embed://import/primitives/wire_node.elmt" uuid="{74c2b57b-64d9-4507-8c33-42f7c561dc89}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="7" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="295" z="-1" orientation="3" freezeLabel="false" x="340" type="embed://import/primitives/wire_node.elmt" uuid="{d3d502ea-b9b9-45ca-bb2a-c21f06ffca69}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="8" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+            <element y="300" z="10" orientation="3" freezeLabel="false" x="345" type="embed://import/primitives/wire_node.elmt" uuid="{1bbac0b8-2734-4125-95c9-f22956af429b}" prefix="">
+                <terminals>
+                    <terminal y="4" orientation="0" id="9" x="0"/>
+                </terminals>
+                <inputs/>
+                <elementInformations>
+                    <elementInformation show="1" name="formula"></elementInformation>
+                </elementInformations>
+                <dynamic_texts/>
+                <texts_groups/>
+            </element>
+        </elements>
+        <conductors>
+            <conductor terminal1="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" dash-size="2" type="multi" freezeLabel="false" function="" displaytext="1" terminal2="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" formula="" onetextperfolio="0" bus="" horizrotatetext="0" element2="{4ac65470-6fc2-4f06-a9e9-d613fbb3a603}" text_color="#000000" bicolor="false" horizontal-alignment="AlignBottom" num=" " conductor_section="" tension_protocol="" cable="" condsize="1" element1="{3a6b867f-90d3-4d2e-9440-e7d32dfbcf1d}" vertical-alignment="AlignRight" y="0" numsize="7" color2="#000000" x="0" conductor_color="" vertirotatetext="270">
+                <segment orientation="vertical" length="9"/>
+                <segment orientation="vertical" length="21"/>
+                <segment orientation="horizontal" length="250"/>
+                <segment orientation="vertical" length="-21"/>
+                <segment orientation="vertical" length="-9"/>
+                <sequentialNumbers/>
+            </conductor>
+            <conductor terminal1="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" dash-size="2" type="multi" freezeLabel="false" function="" displaytext="1" terminal2="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" formula="" onetextperfolio="0" bus="" horizrotatetext="0" element2="{9ee22305-88d5-499a-be41-02e9716a4cb2}" text_color="#000000" bicolor="false" horizontal-alignment="AlignBottom" num=" " conductor_section="" tension_protocol="" cable="" condsize="1" element1="{65910407-ac0e-4998-a496-261da8116d38}" vertical-alignment="AlignRight" y="0" numsize="7" color2="#000000" x="0" conductor_color="" vertirotatetext="270">
+                <sequentialNumbers/>
+            </conductor>
+            <conductor terminal1="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" dash-size="2" type="multi" freezeLabel="false" function="" displaytext="1" terminal2="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" formula="" onetextperfolio="0" bus="" horizrotatetext="0" element2="{d3d502ea-b9b9-45ca-bb2a-c21f06ffca69}" text_color="#000000" bicolor="false" horizontal-alignment="AlignBottom" num=" " conductor_section="" tension_protocol="" cable="" condsize="1" element1="{c9d04ecd-c304-44d2-8e3a-2eec2fab7cd5}" vertical-alignment="AlignRight" y="0" numsize="7" color2="#000000" x="0" conductor_color="" vertirotatetext="270">
+                <sequentialNumbers/>
+            </conductor>
+            <conductor terminal1="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" dash-size="2" type="multi" freezeLabel="false" function="" displaytext="1" terminal2="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" formula="" onetextperfolio="0" bus="" horizrotatetext="0" element2="{74c2b57b-64d9-4507-8c33-42f7c561dc89}" text_color="#000000" bicolor="false" horizontal-alignment="AlignBottom" num=" " conductor_section="" tension_protocol="" cable="" condsize="1" element1="{35016e78-86af-46f8-a23c-e48069e888c4}" vertical-alignment="AlignRight" y="0" numsize="7" color2="#000000" x="0" conductor_color="" vertirotatetext="270">
+                <sequentialNumbers/>
+            </conductor>
+            <conductor terminal1="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" dash-size="2" type="multi" freezeLabel="false" function="" displaytext="1" terminal2="{4ee837cd-2695-466c-8ee9-05d8fa696abc}" formula="" onetextperfolio="0" bus="" horizrotatetext="0" element2="{1bbac0b8-2734-4125-95c9-f22956af429b}" text_color="#000000" bicolor="false" horizontal-alignment="AlignBottom" num=" " conductor_section="" tension_protocol="" cable="" condsize="1" element1="{faea466c-3c26-4556-a519-38ea0e3fe0d9}" vertical-alignment="AlignRight" y="0" numsize="7" color2="#000000" x="0" conductor_color="" vertirotatetext="270">
+                <sequentialNumbers/>
+            </conductor>
+        </conductors>
+        <inputs>
+            <input y="170" text="&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;>&#xa;&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;style type=&quot;text/css&quot;>&#xa;p, li { white-space: pre-wrap; }&#xa;&lt;/style>&lt;/head>&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:0; font-style:normal;&quot;>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt;&quot;>Sieć lokalna&lt;/span>&lt;/p>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt;&quot;>    TCP IP&lt;/span>&lt;/p>&lt;/body>&lt;/html>" font="Sans Serif,9,-1,5,0,0,0,0,0,0,normal" x="134" rotation="0"/>
+            <input y="98" text="&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;>&#xa;&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;style type=&quot;text/css&quot;>&#xa;p, li { white-space: pre-wrap; }&#xa;&lt;/style>&lt;/head>&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:0; font-style:normal;&quot;>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>Komputer 2&lt;/span>&lt;/p>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>w sterowni&lt;/span>&lt;/p>&lt;/body>&lt;/html>" font="Sans Serif,9,-1,5,0,0,0,0,0,0,normal" x="134" rotation="0"/>
+            <input y="230" text="&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;>&#xa;&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;style type=&quot;text/css&quot;>&#xa;p, li { white-space: pre-wrap; }&#xa;&lt;/style>&lt;/head>&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:0; font-style:normal;&quot;>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>Komputer 1&lt;/span>&lt;/p>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>      przy &lt;/span>&lt;/p>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>zasilaczach&lt;/span>&lt;/p>&lt;/body>&lt;/html>" font="Sans Serif,9,-1,5,0,0,0,0,0,0,normal" x="133" rotation="0"/>
+            <input y="260" text="&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;>&#xa;&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;style type=&quot;text/css&quot;>&#xa;p, li { white-space: pre-wrap; }&#xa;&lt;/style>&lt;/head>&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:0; font-style:normal;&quot;>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>Interfejs&lt;/span>&lt;/p>&lt;/body>&lt;/html>" font="Sans Serif,9,-1,5,0,0,0,0,0,0,normal" x="279" rotation="0"/>
+            <input y="230" text="&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;>&#xa;&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;style type=&quot;text/css&quot;>&#xa;p, li { white-space: pre-wrap; }&#xa;&lt;/style>&lt;/head>&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:0; font-style:normal;&quot;>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>Zasilacz 200A&lt;/span>&lt;/p>&lt;/body>&lt;/html>" font="Sans Serif,9,-1,5,0,0,0,0,0,0,normal" x="270" rotation="0"/>
+            <input y="305.586" text="&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;>&#xa;&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;style type=&quot;text/css&quot;>&#xa;p, li { white-space: pre-wrap; }&#xa;&lt;/style>&lt;/head>&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:0; font-style:normal;&quot;>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt;&quot;>Łącza szeregowe&lt;/span>&lt;/p>&lt;/body>&lt;/html>" font="Sans Serif,9,-1,5,0,0,0,0,0,0,normal" x="196.561" rotation="0"/>
+            <input y="230" text="&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;>&#xa;&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;style type=&quot;text/css&quot;>&#xa;p, li { white-space: pre-wrap; }&#xa;&lt;/style>&lt;/head>&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:0; font-style:normal;&quot;>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>Zasilacz 200A&lt;/span>&lt;/p>&lt;/body>&lt;/html>" font="Sans Serif,9,-1,5,0,0,0,0,0,0,normal" x="370" rotation="0"/>
+            <input y="260" text="&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;>&#xa;&lt;html>&lt;head>&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; />&lt;style type=&quot;text/css&quot;>&#xa;p, li { white-space: pre-wrap; }&#xa;&lt;/style>&lt;/head>&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:0; font-style:normal;&quot;>&#xa;&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:83%;&quot;>&lt;span style=&quot; font-size:6pt; font-weight:600;&quot;>Interfejs&lt;/span>&lt;/p>&lt;/body>&lt;/html>" font="Sans Serif,9,-1,5,0,0,0,0,0,0,normal" x="379" rotation="0"/>
+        </inputs>
+        <shapes>
+            <shape x1="270" ry="0" z="0" closed="0" x2="330" y1="230" rx="0" y2="280" is_movable="1" type="Rectangle">
+                <pen style="SolidLine" widthF="1" color="#000000"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape x1="160" z="0" closed="0" x2="160" y1="140" y2="170" is_movable="1" type="Line">
+                <pen style="SolidLine" widthF="1" color="#000000"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape x1="120" ry="0" z="0" closed="0" x2="200" y1="90" rx="0" y2="140" is_movable="1" type="Rectangle">
+                <pen style="SolidLine" widthF="1" color="#000000"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape x1="120" ry="0" z="0" closed="0" x2="200" y1="230" rx="0" y2="280" is_movable="1" type="Rectangle">
+                <pen style="SolidLine" widthF="1" color="#000000"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape x1="370" ry="0" z="0" closed="0" x2="430" y1="230" rx="0" y2="280" is_movable="1" type="Rectangle">
+                <pen style="SolidLine" widthF="1" color="#000000"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape x1="380" ry="0" z="0" closed="0" x2="420" y1="260" rx="0" y2="280" is_movable="1" type="Rectangle">
+                <pen style="SolidLine" widthF="1" color="#000000"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape x1="280" ry="0" z="0" closed="0" x2="320" y1="260" rx="0" y2="280" is_movable="1" type="Rectangle">
+                <pen style="SolidLine" widthF="1" color="#000000"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+            <shape x1="160" z="0" closed="0" x2="160" y1="230" y2="200" is_movable="1" type="Line">
+                <pen style="SolidLine" widthF="1" color="#000000"/>
+                <brush style="NoBrush" color="#000000"/>
+            </shape>
+        </shapes>
+    </diagram>
+    <collection>
+        <category name="import">
+            <names>
+                <name lang="ro">Elemente importate</name>
+                <name lang="de">Importierte elemente</name>
+                <name lang="hr">Uvezeni elementi</name>
+                <name lang="sl">Uvoženi elementi</name>
+                <name lang="el">Εισηγμένα στοιχεία</name>
+                <name lang="uk">Імпортовані елементи</name>
+                <name lang="nl">Elementen geïmporteerd</name>
+                <name lang="pl">Elementy importowane</name>
+                <name lang="es">Elementos importados</name>
+                <name lang="ru">Импортированные элементы</name>
+                <name lang="cs">Zavedené prvky</name>
+                <name lang="pt">elementos importados</name>
+                <name lang="tr">İthal öğeler</name>
+                <name lang="en">Imported elements</name>
+                <name lang="it">Elementi importati</name>
+                <name lang="da">Importerede elementer</name>
+                <name lang="ja">インバートされた要素</name>
+                <name lang="ca">Elements importats</name>
+                <name lang="fr">Éléments importés</name>
+            </names>
+            <category name="elements">
+                <names>
+                    <name lang="en">elements</name>
+                </names>
+                <element name="led.elmt">
+                    <definition version="0.90" height="30" hotspot_x="4" width="30" hotspot_y="20" type="element" link_type="simple">
+                        <uuid uuid="{011cd50c-a8a4-4b4b-9d8e-3fc598264efc}"/>
+                        <names>
+                            <name lang="en">led</name>
+                        </names>
+                        <elementInformations/>
+                        <informations/>
+                        <description>
+                            <line end1="none" x1="5" end2="none" antialias="false" length1="1.5" x2="5" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-8" y2="8" length2="1.5"/>
+                            <line end1="none" x1="13" end2="none" antialias="false" length1="1.5" x2="17" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-9" y2="-18" length2="1.5"/>
+                            <line end1="none" x1="17" end2="none" antialias="false" length1="1.5" x2="17" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-14" y2="-18" length2="1.5"/>
+                            <line end1="none" x1="17" end2="none" antialias="false" length1="1.5" x2="14" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-18" y2="-15" length2="1.5"/>
+                            <line end1="none" x1="5" end2="none" antialias="false" length1="1.5" x2="18" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="8" y2="0" length2="1.5"/>
+                            <line end1="none" x1="18" end2="none" antialias="false" length1="1.5" x2="5" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="0" y2="-8" length2="1.5"/>
+                            <line end1="none" x1="18" end2="none" antialias="false" length1="1.5" x2="18" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-8" y2="8" length2="1.5"/>
+                            <line end1="none" x1="5" end2="none" antialias="false" length1="1.5" x2="0" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="0" y2="0" length2="1.5"/>
+                            <line end1="none" x1="20" end2="none" antialias="false" length1="1.5" x2="18" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="0" y2="0" length2="1.5"/>
+                            <line end1="none" x1="8" end2="none" antialias="false" length1="1.5" x2="12" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-9" y2="-18" length2="1.5"/>
+                            <line end1="none" x1="12" end2="none" antialias="false" length1="1.5" x2="12" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-14" y2="-18" length2="1.5"/>
+                            <line end1="none" x1="12" end2="none" antialias="false" length1="1.5" x2="9" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-18" y2="-15" length2="1.5"/>
+                            <terminal y="0" orientation="w" x="0" type="Generic" name="" uuid="{88191c12-29c4-4745-a797-2eb8d8286c85}"/>
+                            <terminal y="0" orientation="e" x="20" type="Generic" name="" uuid="{09801acb-b89a-4ecb-adc6-d23454605c21}"/>
+                        </description>
+                    </definition>
+                </element>
+                <element name="resistor.elmt">
+                    <definition version="0.90" height="10" hotspot_x="4" width="50" hotspot_y="5" type="element" link_type="simple">
+                        <uuid uuid="{97a5ed2a-7263-44cb-8e10-9b88ce9e4335}"/>
+                        <names>
+                            <name lang="en">resistor</name>
+                        </names>
+                        <elementInformations/>
+                        <informations/>
+                        <description>
+                            <line end1="none" x1="0" end2="none" antialias="false" length1="1.5" x2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="0" y2="0" length2="1.5"/>
+                            <line end1="none" x1="10" end2="none" antialias="false" length1="1.5" x2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-3" y2="3" length2="1.5"/>
+                            <line end1="none" x1="10" end2="none" antialias="false" length1="1.5" x2="30" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="3" y2="3" length2="1.5"/>
+                            <line end1="none" x1="30" end2="none" antialias="false" length1="1.5" x2="30" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="3" y2="-3" length2="1.5"/>
+                            <line end1="none" x1="30" end2="none" antialias="false" length1="1.5" x2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-3" y2="-3" length2="1.5"/>
+                            <line end1="none" x1="30" end2="none" antialias="false" length1="1.5" x2="40" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="0" y2="0" length2="1.5"/>
+                            <terminal y="0" orientation="w" x="0" type="Generic" name="" uuid="{9c944b3c-2bcb-450f-98f9-9b7f038069a8}"/>
+                            <terminal y="0" orientation="e" x="40" type="Generic" name="" uuid="{da2ec864-3d0b-406b-8abc-f6a9143a9bbb}"/>
+                        </description>
+                    </definition>
+                </element>
+                <element name="connector_3x1.elmt">
+                    <definition version="0.90" height="40" hotspot_x="6" width="40" hotspot_y="20" type="element" link_type="simple">
+                        <uuid uuid="{58d7e703-c908-4c45-9ccb-ef8ff01d5ada}"/>
+                        <names>
+                            <name lang="en">connector_3x1</name>
+                        </names>
+                        <elementInformations/>
+                        <informations/>
+                        <description>
+                            <rect y="-15" ry="0" antialias="false" height="30" width="20" style="line-style:normal;line-weight:normal;filling:none;color:black" rx="0" x="10"/>
+                            <line end1="none" x1="0" end2="none" antialias="false" length1="1.5" x2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="0" y2="0" length2="1.5"/>
+                            <line end1="none" x1="0" end2="none" antialias="false" length1="1.5" x2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="-10" y2="-10" length2="1.5"/>
+                            <line end1="none" x1="0" end2="none" antialias="false" length1="1.5" x2="10" style="line-style:normal;line-weight:normal;filling:none;color:black" y1="10" y2="10" length2="1.5"/>
+                            <terminal y="10" orientation="w" x="0" type="Generic" name="" uuid="{6f9323e3-5cad-4c61-ab51-bbbd0403d8b8}"/>
+                            <terminal y="0" orientation="w" x="0" type="Generic" name="" uuid="{2b0a19bd-7a74-4cfb-b0d9-d0e3854d6574}"/>
+                            <terminal y="-10" orientation="w" x="0" type="Generic" name="" uuid="{42b82183-6b31-4562-87b4-84b288899e93}"/>
+                        </description>
+                    </definition>
+                </element>
+                <element name="jumper.elmt">
+                    <definition version="0.90" height="20" hotspot_x="4" width="30" hotspot_y="11" type="element" link_type="simple">
+                        <uuid uuid="{2478e54f-1407-4dfa-af05-a66c759936f0}"/>
+                        <names>
+                            <name lang="en">jumper</name>
+                        </names>
+                        <elementInformations/>
+                        <informations/>
+                        <description>
+                            <circle y="-2" antialias="false" style="line-style:normal;line-weight:normal;filling:none;color:black" x="18" diameter="4"/>
+                            <circle y="-2" antialias="false" style="line-style:normal;line-weight:normal;filling:none;color:black" x="-2" diameter="4"/>
+                            <arc start="20" y="-5" antialias="true" height="6" width="18" style="line-style:normal;line-weight:normal;filling:none;color:black" x="1" angle="140"/>
+                            <terminal y="0" orientation="e" x="20" type="Generic" name="" uuid="{568d9d60-e611-48a2-94ba-5e7ccc923ff3}"/>
+                            <terminal y="0" orientation="w" x="0" type="Generic" name="" uuid="{d575583f-69cd-473a-9249-970f02d7f31b}"/>
+                        </description>
+                    </definition>
+                </element>
+            </category>
+            <category name="primitives">
+                <names>
+                    <name lang="en">primitives</name>
+                </names>
+                <element name="wire_node.elmt">
+                    <definition version="0.90" height="20" hotspot_x="4" width="10" hotspot_y="7" type="element" link_type="simple">
+                        <uuid uuid="{c77c7524-f38b-485e-bf02-26c130cf436a}"/>
+                        <names>
+                            <name lang="en">wire_node</name>
+                        </names>
+                        <elementInformations/>
+                        <informations/>
+                        <description>
+                            <terminal y="0" orientation="n" x="0" type="Generic" name="" uuid="{4ee837cd-2695-466c-8ee9-05d8fa696abc}"/>
+                        </description>
+                    </definition>
+                </element>
+                <element name="junction_4px.elmt">
+                    <definition version="0.90" height="10" hotspot_x="5" width="10" hotspot_y="5" type="element" link_type="simple">
+                        <uuid uuid="{f342ab44-3a81-4368-9aa3-c517a6ace76f}"/>
+                        <names>
+                            <name lang="en">junction_4px</name>
+                        </names>
+                        <elementInformations/>
+                        <informations/>
+                        <description>
+                            <circle y="-2" antialias="false" style="line-style:normal;line-weight:normal;filling:black;color:black" x="-2" diameter="4"/>
+                        </description>
+                    </definition>
+                </element>
+            </category>
+        </category>
+    </collection>
+</project>
