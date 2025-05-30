@@ -165,8 +165,6 @@ bool communicateTcpServer(void){
 		}
 
 		// Checking whether the control is remote or local
-		pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;
-		pthread_mutex_lock( &xLock );
 		if ((uint8_t)getLoadedDataUInt16( TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL ) != ControlFromGuiHere.load()){
 			if (0 != getLoadedDataUInt16( TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL )){
 				assert( 1 == getLoadedDataUInt16( TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL ));
@@ -178,7 +176,6 @@ bool communicateTcpServer(void){
 			}
 			ReturnValue = true;	// to refresh application window label
 		}
-		pthread_mutex_unlock( &xLock );
 	}
 
 	//--- Activities related to the following sectors ---

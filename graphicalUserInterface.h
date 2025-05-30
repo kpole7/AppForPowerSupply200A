@@ -4,6 +4,7 @@
 #define GRAPHICALUSERINTERFACE_H_
 
 #include <string>
+#include <atomic>
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include <FL/Fl_Double_Window.H> // to eliminate flickering
@@ -150,7 +151,7 @@ private:
 	Fl_Button* DecreaseBy01;
 	Fl_Button* DecreaseBy1;
 	uint16_t OfflineSetpointValue;	// multi-click machine (relates to fast multi-click of '+1A' '-0.1A' ... '-1A' buttons)
-	uint16_t MulticlickCounter;		// multi-click machine
+	std::atomic<uint16_t> MulticlickCounter;		// multi-click machine
 	// if MulticlickCounter == 0 then multi-click machine is in idle state (OfflineSetpointValue is replaced
 	//                                         by Modbus register with address MODBUS_ADDRES_REQUIRED_VALUE)
 	// if MulticlickCounter != 0 then multi-click machine blocks reading from Modbus register with address MODBUS_ADDRES_REQUIRED_VALUE
@@ -191,12 +192,12 @@ public:
 //.................................................................................................
 
 // This variable is set when the Modbus TCP server starts (that is when the new thread starts and the socket is created)
-extern bool ActiveModbusTcpServer;
+extern std::atomic<bool> ActiveModbusTcpServer;
 
 extern WindowEscProof* ApplicationWindow;
 extern ChannelGuiGroup* TableOfGroupsPtr[MAX_NUMBER_OF_SERIAL_PORTS];
 extern Fl_Box* LargeErrorMessage;
-extern bool UpdateConfigurableWidgets;
+extern std::atomic<bool> UpdateConfigurableWidgets;
 
 //.................................................................................................
 // Function prototypes

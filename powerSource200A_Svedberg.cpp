@@ -41,7 +41,7 @@ bool VerboseMode;
 std::string* ConfigurationFilePathPtr;
 
 // This variable is set when the Modbus TCP server starts (that is when the new thread starts and the socket is created)
-bool ActiveModbusTcpServer(false);
+std::atomic<bool> ActiveModbusTcpServer(false);
 
 WindowEscProof* ApplicationWindow;
 
@@ -125,9 +125,9 @@ static void onMainWindowCloseCallback(Fl_Widget *Widget, void *Data) {
 
 // Operations before closing the application
 static void exitProcedure(void){
-	if (ActiveModbusTcpServer){
+	if (ActiveModbusTcpServer.load()){
 		closeModbusTcpSlave();
-		ActiveModbusTcpServer = false;
+		ActiveModbusTcpServer.store(false);
 	}
 
 	closeTcpClient(); // this function checks dependencies

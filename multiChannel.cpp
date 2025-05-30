@@ -82,7 +82,6 @@ static bool possibilityOfPsuShuttingdown(uint8_t IndexOfChannel);
 void peripheralThread(void) {
     struct timespec TimeSpecification0, TimeSpecification1;
     uint8_t J, TimeDivider, TemporaryControlFromGuiHere;
-	pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;
 
     TimeDivider = 0;
 
@@ -92,9 +91,7 @@ void peripheralThread(void) {
 		return;
 	}
 
-	pthread_mutex_lock( &xLock );
-	UpdateConfigurableWidgets = true;
-	pthread_mutex_unlock( &xLock );
+	UpdateConfigurableWidgets.store(true);
 
 	synchronizeDataAcrossThreads();
 
@@ -103,9 +100,7 @@ void peripheralThread(void) {
 		// Start yet another thread for Modbus TCP server (slave)
 		J = (uint8_t)initializeModbusTcpSlave();
 	    if (J != 0){
-	    	pthread_mutex_lock( &xLock );
-	    	ActiveModbusTcpServer = true;
-	    	pthread_mutex_unlock( &xLock );
+	    	ActiveModbusTcpServer.store(true);
 	    }
 	    else{
 	    	Fl::awake( displayTcpConnectionErrorMessage, nullptr );

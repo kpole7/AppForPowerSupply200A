@@ -292,10 +292,7 @@ void TransmissionChannel::singleInquiryOfSlave( int ChannelId ){
 
 					// information about updating the register containing the setpoint is needed
 					// in the GUI to protect against fast multiclicking (the buttons '+1A' '-0.1A' ... '-1A')
-					pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;
-					pthread_mutex_lock( &xLock );
 					multiclickCountdown();
-					pthread_mutex_unlock( &xLock );
 				}
 				if(RTU_ORDER_READING_LAST == PresentOrder){
 					for( J=0; J < READING_REGISTERS_NUMBER; J++ ){

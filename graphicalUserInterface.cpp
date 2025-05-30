@@ -104,7 +104,7 @@ ChannelGuiGroup* TableOfGroupsPtr[MAX_NUMBER_OF_SERIAL_PORTS];
 
 Fl_Box* LargeErrorMessage;
 
-bool UpdateConfigurableWidgets(false);
+std::atomic<bool> UpdateConfigurableWidgets(false);
 
 //.................................................................................................
 // Local constants
@@ -750,7 +750,7 @@ SetPointInputGroup::SetPointInputGroup(int X, int Y, int W, int H, const char* L
 	BottomLinePtr = new HorizontalLineWidget( X, Y+2*GROUPS_OF_WIDGETS_SPACING-2, W, 1 );
 
 	OfflineSetpointValue = 0;
-	MulticlickCounter = 0;
+	MulticlickCounter.store(0);
 
     // Add widgets to group
     this->end();
@@ -773,7 +773,7 @@ void SetPointInputGroup::openDialog( int X, int Y ){
 	this->position( X, Y );
 	this->show();
 	InputDialogPtr->take_focus();
-	MulticlickCounter = 0;
+	MulticlickCounter.store(0);
 }
 
 void SetPointInputGroup::closeDialog(){
@@ -793,7 +793,7 @@ void SetPointInputGroup::setLastValidInputString( const char* NewText ){
 }
 
 void SetPointInputGroup::resetMulticlick(){
-	MulticlickCounter = 0;
+	MulticlickCounter.store(0);
 }
 
 // This function protects against fast multiclicking of the buttons '+1A' '-0.1A' ... '-1A'.
@@ -804,11 +804,11 @@ void SetPointInputGroup::resetMulticlick(){
 uint16_t SetPointInputGroup::getMulticlickProofSetpointValue( uint8_t ChannelIndex ){
 	DataSharingInterface* InterfaceDataPtr;
 
-	if (0 == MulticlickCounter){
+	if (0 == MulticlickCounter.load()){
 		InterfaceDataPtr = &TableOfSharedDataForGui[ChannelIndex];
 		OfflineSetpointValue = InterfaceDataPtr->getModbusRegister(MODBUS_ADDRES_REQUIRED_VALUE);
 	}
-	MulticlickCounter = 2;
+	MulticlickCounter.store(2);
 	return OfflineSetpointValue;
 }
 
@@ -819,8 +819,8 @@ void SetPointInputGroup::setOfflineSetpointValue( uint16_t NewValue ){
 // This function transfers information about updating the Modbus RTU register containing the setpoint to GUI.
 // The information is needed in to protect against fast multiclicking of the buttons '+1A' '-0.1A' ... '-1A'
 void multiclickCountdown(void){
-	if (0 < SetPointInputGroupPtr->MulticlickCounter){
-		SetPointInputGroupPtr->MulticlickCounter--;
+	if (0 < SetPointInputGroupPtr->MulticlickCounter.load()){
+		SetPointInputGroupPtr->MulticlickCounter.fetch_sub(1);
 	}
 }
 
@@ -1365,8 +1365,8 @@ void updateChannelWidgets(void* Data) {
 
 	GroupPtr->redraw();
 
-	if (UpdateConfigurableWidgets){
-		UpdateConfigurableWidgets = false;
+	if (UpdateConfigurableWidgets.load()){
+		UpdateConfigurableWidgets.store(false);
 		if (IsModbusTcpSlave){
 			RemoteComputerControlButton->show();
 		}
