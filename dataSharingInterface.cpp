@@ -51,6 +51,9 @@ DataSharingInterface TableOfSharedDataForGui[MAX_NUMBER_OF_SERIAL_PORTS];
 // the remaining sectors contain information about individual power supplies
 uint16_t TableOfSharedDataForTcpServer[MAX_NUMBER_OF_SERIAL_PORTS+1][MODBUS_TCP_SECTOR_SIZE];
 
+// This is a mutex for TableOfSharedDataForTcpServer
+pthread_mutex_t TcpSlaveMutexLock = PTHREAD_MUTEX_INITIALIZER;
+
 //.................................................................................................
 // Local variables
 //.................................................................................................

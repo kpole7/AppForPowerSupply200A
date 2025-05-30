@@ -26,6 +26,10 @@
  ***********************************************************/
 
 // The file has been modified by K.O.
+// This module works in the following threads:
+// the peripheral thread: function initializeModbusTcpSlave
+// the main FLTK thread: function closeModbusTcpSlave
+// and in the TCP slave thread (pvPollingThread): other functions
 
 #include "modbusTcpSlave.h"
 
@@ -105,6 +109,7 @@ static void* pvPollingThread( void *pvParameter );
 // ----------------------- Start implementation -----------------------------
 
 // This function initializes TCP socket and starts additional thread for the Modbus TCP slave
+// This function works in the peripheral thread (K.O. comment)
 char initializeModbusTcpSlave( void ){
     BOOL            bResult;
 	pthread_t       xThread;
@@ -116,6 +121,7 @@ char initializeModbusTcpSlave( void ){
 	// TableOfSharedDataForTcpServer[0][TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL]
 	// TableOfSharedDataForTcpServer[0][TCP_SERVER_ADDRESS_NUMBER_OF_CHANNELS]
 	// are set in the function configurationFileParsing()
+	// (K.O. comment)
 
 	for (J = TCP_SERVER_ADDRESS_IDENTIFICATION_LABEL; J < MODBUS_TCP_SECTOR_SIZE; J++){
 		TableOfSharedDataForTcpServer[0][J] = (TcpSlaveIdentifier[2*(J-TCP_SERVER_ADDRESS_IDENTIFICATION_LABEL)] << 8)
@@ -187,6 +193,7 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
 {
     int             iRegIndex;
     int				Sector, Offset;
+    USHORT			TemporaryUnsignedNumber;
 
     usAddress--;
 
@@ -194,10 +201,12 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
     	// usAddress is below the address space range
     	return MB_ENOREG;
     }
-    if (usAddress < TCP_SERVER_START_ADDRESS
+	pthread_mutex_lock( &TcpSlaveMutexLock );
+    TemporaryUnsignedNumber = TCP_SERVER_START_ADDRESS
     		+ TableOfSharedDataForTcpServer[0][TCP_SERVER_ADDRESS_NUMBER_OF_CHANNELS] * TCP_SERVER_SECTOR_ADDRESS_STEP
-			+ MODBUS_TCP_SECTOR_SIZE )
-    {
+			+ MODBUS_TCP_SECTOR_SIZE;
+	pthread_mutex_unlock( &TcpSlaveMutexLock );
+    if (usAddress < TemporaryUnsignedNumber){
     	// usAddress is located in the address space range, which contains (NumberOfChannels+1) sectors
 
         usAddress -= TCP_SERVER_START_ADDRESS;
@@ -214,6 +223,7 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
         if (MB_REG_READ == eMode){
         	// This Modbus command is a valid request to read data from TableOfSharedDataForTcpServer
 
+        	pthread_mutex_lock( &TcpSlaveMutexLock );
         	iRegIndex = 0;
     		while( usNRegs > 0 ){
     			*pucRegBuffer = ( UCHAR ) ( TableOfSharedDataForTcpServer[Sector][Offset+iRegIndex] >> 8 );
@@ -223,6 +233,7 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
     			iRegIndex++;
     			usNRegs--;
     		}
+    		pthread_mutex_unlock( &TcpSlaveMutexLock );
     		return MB_ENOERR;
         }
         if (MB_REG_WRITE == eMode){
@@ -245,6 +256,7 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
                 return MB_ENOREG;
         	}
         	// This Modbus command is a valid request to write data to TableOfSharedDataForTcpServer
+        	pthread_mutex_lock( &TcpSlaveMutexLock );
    			TableOfSharedDataForTcpServer[Sector][Offset] = *pucRegBuffer << 8;
    			pucRegBuffer++;
    			TableOfSharedDataForTcpServer[Sector][Offset] |= *pucRegBuffer;
@@ -254,6 +266,7 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
    				// to set the set-point
    				TableOfSharedDataForTcpServer[Sector][MODBUS_TCP_ADDRESS_ORDER_CODE] = RTU_ORDER_SET_VALUE;
    			}
+   			pthread_mutex_unlock( &TcpSlaveMutexLock );
     		return MB_ENOERR;
         }
         return MB_ENOREG;

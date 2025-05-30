@@ -1,9 +1,8 @@
 // modbusRtuMaster.cpp
 //
-// Threads: peripheral thread
+// This module works in the peripheral thread
 //
 // This module is designed to handle a single communication channel with the power supply unit.
-// The module is designed to operate in a peripheral thread.
 
 #include <stdio.h>
 #include <stdlib.h>

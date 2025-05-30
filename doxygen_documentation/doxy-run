@@ -1,0 +1,3 @@
+cd /home/krzysztof/LocalSoftware/AppForPowerSupply200A/doxygen_documentation
+doxywizard ./Doxyfile &
+exit

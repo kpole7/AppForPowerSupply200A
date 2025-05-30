@@ -1,6 +1,6 @@
 // multiChannel.cpp
 //
-// Threads: peripheral thread
+// This module works in the peripheral thread
 
 #include <fstream>
 #include <iostream>
@@ -602,7 +602,7 @@ void synchronizeDataAcrossThreads(void){
     	if (0 != IsModbusTcpSlave){
     		// the TCP server is active
         	// Data synchronization between TableOfSharedDataForLowLevel and TableOfSharedDataForTcpServer
-        	pthread_mutex_lock( &xLock );
+        	pthread_mutex_lock( &TcpSlaveMutexLock );
         	if (0 == ControlFromGuiHere){
         		// Remote control via Modbus TCP is active.
         		// Checking if there is a new order from the remote computer
@@ -616,7 +616,7 @@ void synchronizeDataAcrossThreads(void){
         	TableOfSharedDataForLowLevel[J].exportModbusRegisters( &TableOfSharedDataForTcpServer[J+1][0] );
     		TableOfSharedDataForTcpServer[J+1][MODBUS_TCP_ADDRESS_ORDER_CODE] = RTU_ORDER_NONE;
     		TableOfSharedDataForTcpServer[J+1][MODBUS_TCP_ADDRESS_ORDER_VALUE] = 0;
-        	pthread_mutex_unlock( &xLock );
+        	pthread_mutex_unlock( &TcpSlaveMutexLock );
     	}
     }
 }

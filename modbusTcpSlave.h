@@ -4,6 +4,7 @@
 #define MODBUSTCPSLAVE_H_
 
 #include <inttypes.h>
+#include <pthread.h>
 
 //.................................................................................................
 // Preprocessor directives
@@ -104,6 +105,9 @@ extern uint8_t ControlFromGuiHere;
 //   - Modbus TCP server identification label
 // the remaining sectors contain information about individual power supplies
 extern uint16_t TableOfSharedDataForTcpServer[MAX_NUMBER_OF_SERIAL_PORTS+1][MODBUS_TCP_SECTOR_SIZE];
+
+// This is a mutex for TableOfSharedDataForTcpServer
+extern pthread_mutex_t TcpSlaveMutexLock;
 
 // This is a table of Modbus registers containing the description lengths of each power supply unit.
 // These registers occupy addresses from TCP_SERVER_DESCRIPTION_LENGTHS_ADDRESS
