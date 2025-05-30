@@ -69,7 +69,7 @@ static int determineApplicationPath( char* Argv0 );
 int main(int argc, char** argv) {
 
 	VerboseMode = false;
-	ControlFromGuiHere = 1;
+	ControlFromGuiHere.store(1);
 
     for (int J = 1; J < argc; J++) {
         std::string Argument = argv[J];

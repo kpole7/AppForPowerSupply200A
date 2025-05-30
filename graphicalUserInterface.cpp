@@ -529,7 +529,7 @@ void ChannelGuiGroup::refreshStatusLabels( CommunicationStatesClass StateOfTrans
 void ChannelGuiGroup::updateSettingsButtonsAndPowerDownWigets( CommunicationStatesClass StateOfTransmission,
 		PoweringDownStatesClass NewPowerDownState )
 {
-	uint8_t TemporaryControlFromGuiHere = ControlFromGuiHere;
+	uint8_t TemporaryControlFromGuiHere = ControlFromGuiHere.load();
 
 	if (((CommunicationStatesClass::HEALTHY == StateOfTransmission) ||
 			(CommunicationStatesClass::TEMPORARY_ERRORS == StateOfTransmission)) &&
@@ -1240,19 +1240,19 @@ static void remoteComputerControlCallback(Fl_Widget* Widget, void* Data){
 
 	assert( 0 != IsModbusTcpSlave );
 
-	if (0 == ControlFromGuiHere){
-		ControlFromGuiHere = 1;
+	if (0 == ControlFromGuiHere.load()){
+		ControlFromGuiHere.store(1);
 	}
 	else{
-		ControlFromGuiHere = 0;
+		ControlFromGuiHere.store(0);
 	}
 
 	pthread_mutex_lock( &TcpSlaveMutexLock );
-	TableOfSharedDataForTcpServer[0][TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL] = ControlFromGuiHere? 0:1;
+	TableOfSharedDataForTcpServer[0][TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL] = ControlFromGuiHere.load()? 0:1;
 	pthread_mutex_unlock( &TcpSlaveMutexLock );
 
 	updateMainApplicationLabel( nullptr );
-	RemoteComputerControlButton->label( TextOfRemoteComputerControlButton[ ControlFromGuiHere? 0:1 ] );
+	RemoteComputerControlButton->label( TextOfRemoteComputerControlButton[ ControlFromGuiHere.load()? 0:1 ] );
 	RemoteComputerControlButton->redraw();
 
 	if (0 <= SetPointInputGroupPtr->getChannelDisplayingSetPointEntryDialog()){
@@ -1442,7 +1442,7 @@ void hideAuxiliaryGroups(void){
 void updateMainApplicationLabel( void* Data ){
 	(void)Data; // intentionally unused
 	if (0 != IsModbusTcpSlave){
-		if (0 != ControlFromGuiHere){
+		if (0 != ControlFromGuiHere.load()){
 			ApplicationWindow->label(MainWindowNameInModeLocalUppercase);
 		}
 		else{
@@ -1450,7 +1450,7 @@ void updateMainApplicationLabel( void* Data ){
 		}
 	}
 	else{
-		if (0 != ControlFromGuiHere){
+		if (0 != ControlFromGuiHere.load()){
 			ApplicationWindow->label(MainWindowNameInModeRemoteUppercase);
 		}
 		else{

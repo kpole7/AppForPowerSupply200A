@@ -4,6 +4,7 @@
 
 #include <string.h>
 #include <pthread.h>
+#include <atomic>
 #include "dataSharingInterface.h"
 #include "modbusRtuMaster.h"
 #include <iostream>
@@ -33,8 +34,8 @@ char TcpSlaveAddress[20];
 // If IsModbusTcpSlave == 0, then
 //     if the Modbus TCP master receives information that the TCP server (slave) has remote control set, ControlFromGuiHere is set to '1'
 //     in the other case ControlFromGuiHere is cleared (the default value)
-// Threads: main thread
-uint8_t ControlFromGuiHere;
+// Threads: multi-thread
+std::atomic<unsigned char> ControlFromGuiHere;
 
 // This array is used to exchange data between different threads;
 // the array is used in the peripheral thread (both in 'local computer' mode and 'remote computer' mode).

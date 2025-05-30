@@ -167,14 +167,14 @@ bool communicateTcpServer(void){
 		// Checking whether the control is remote or local
 		pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;
 		pthread_mutex_lock( &xLock );
-		if ((uint8_t)getLoadedDataUInt16( TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL ) != ControlFromGuiHere){
+		if ((uint8_t)getLoadedDataUInt16( TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL ) != ControlFromGuiHere.load()){
 			if (0 != getLoadedDataUInt16( TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL )){
 				assert( 1 == getLoadedDataUInt16( TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL ));
 
-				ControlFromGuiHere = 1;
+				ControlFromGuiHere.store(1);
 			}
 			else{
-				ControlFromGuiHere = 0;
+				ControlFromGuiHere.store(0);
 			}
 			ReturnValue = true;	// to refresh application window label
 		}

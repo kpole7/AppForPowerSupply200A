@@ -5,6 +5,11 @@
 
 #include <inttypes.h>
 #include <pthread.h>
+#ifdef __cplusplus
+	#include <atomic>
+#else
+	#include <stdatomic.h>
+#endif
 
 //.................................................................................................
 // Preprocessor directives
@@ -96,7 +101,11 @@ extern char TcpSlaveAddress[20];
 //     if the Modbus TCP master receives information that the TCP server (slave) has remote control set, ControlFromGuiHere is set to '1'
 //     in the other case ControlFromGuiHere is cleared (the default value)
 // Threads: main thread
-extern uint8_t ControlFromGuiHere;
+#ifdef __cplusplus
+	extern std::atomic<unsigned char> ControlFromGuiHere;
+#else
+	extern _Atomic unsigned char ControlFromGuiHere;
+#endif
 
 // This array is equivalent to TableOfSharedDataForLowLevel; this array is mainly used in the Modbus TCP server
 // The array consists of sectors; the first sector contains information:

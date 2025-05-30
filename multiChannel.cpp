@@ -155,9 +155,7 @@ void peripheralThread(void) {
 				    	Fl::awake( displayChannelWidgets, (void*)TableOfGroupsPtr[J] );
 				    }
 
-					pthread_mutex_lock( &xLock );
-					TemporaryControlFromGuiHere = ControlFromGuiHere;
-					pthread_mutex_unlock( &xLock );
+					TemporaryControlFromGuiHere = ControlFromGuiHere.load();
 				    if (0 == TemporaryControlFromGuiHere){
 				    	Fl::awake( closeSetpointDialogIfActive, nullptr );
 				    }
@@ -268,10 +266,7 @@ uint8_t configurationFileParsing(void) {
     }
     IsModbusTcpSlave = (MatchesTcpSlave? 1 : 0);
 
-    pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;
-	pthread_mutex_lock( &xLock );
-    ControlFromGuiHere = IsModbusTcpSlave; // the default value
-	pthread_mutex_unlock( &xLock );
+    ControlFromGuiHere.store(IsModbusTcpSlave); // the default value
 
     TableOfSharedDataForTcpServer[0][TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL] = 0;
 
@@ -586,7 +581,7 @@ void synchronizeDataAcrossThreads(void){
     	// Data synchronization between TableOfSharedDataForLowLevel and TableOfSharedDataForGui
     	pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;
     	pthread_mutex_lock( &xLock );
-    	if (0 != ControlFromGuiHere){
+    	if (0 != ControlFromGuiHere.load()){
     		// Checking if there is a new order from the user to the power supply unit
     		if (TableOfSharedDataForGui[J].isNewOrder()){
     			uint16_t TemporaryValue;
@@ -603,7 +598,7 @@ void synchronizeDataAcrossThreads(void){
     		// the TCP server is active
         	// Data synchronization between TableOfSharedDataForLowLevel and TableOfSharedDataForTcpServer
         	pthread_mutex_lock( &TcpSlaveMutexLock );
-        	if (0 == ControlFromGuiHere){
+        	if (0 == ControlFromGuiHere.load()){
         		// Remote control via Modbus TCP is active.
         		// Checking if there is a new order from the remote computer
         		if (RTU_ORDER_NONE != (uint8_t)(TableOfSharedDataForTcpServer[J+1][MODBUS_TCP_ADDRESS_ORDER_CODE])){
