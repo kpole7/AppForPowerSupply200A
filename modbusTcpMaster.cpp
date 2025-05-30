@@ -207,9 +207,10 @@ bool communicateTcpServer(void){
 					}
 					if (0 == TextLoadedViaModbusTcp[ ChannelDescriptionTextLengths[M]-1 ]){ // checking that the text is properly terminated
 
-						pthread_mutex_lock( &SharedDataForGuiMutexLock );
 						DescriptionTextCopies[M] = TextLoadedViaModbusTcp;
 						TableOfSharedDataForLowLevel[M].setDescription( &DescriptionTextCopies[M] );
+
+						pthread_mutex_lock( &SharedDataForGuiMutexLock );
 						TableOfSharedDataForGui[M].setDescription( &DescriptionTextCopies[M] );
 						pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 
