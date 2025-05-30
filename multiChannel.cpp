@@ -574,8 +574,7 @@ void waitForSynchronization(void){
 void synchronizeDataAcrossThreads(void){
     for ( int J = 0; J < NumberOfChannels; J++) {
     	// Data synchronization between TableOfSharedDataForLowLevel and TableOfSharedDataForGui
-    	pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;
-    	pthread_mutex_lock( &xLock );
+    	pthread_mutex_lock( &SharedDataForGuiMutexLock );
     	if (0 != ControlFromGuiHere.load()){
     		// Checking if there is a new order from the user to the power supply unit
     		if (TableOfSharedDataForGui[J].isNewOrder()){
@@ -587,7 +586,7 @@ void synchronizeDataAcrossThreads(void){
     	// copying data to GUI
     	memcpy( &(TableOfSharedDataForGui[J]), &(TableOfSharedDataForLowLevel[J]), sizeof(DataSharingInterface) );
     	TableOfSharedDataForGui[J].resetOrderCode(); // because memcpy overwrote TableOfSharedDataForGui[J].OrderCode with a wrong value
-    	pthread_mutex_unlock( &xLock );
+    	pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 
     	if (0 != IsModbusTcpSlave){
     		// the TCP server is active

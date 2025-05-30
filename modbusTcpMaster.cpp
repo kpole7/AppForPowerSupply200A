@@ -21,6 +21,7 @@ ModbusTcpClientStateClass ModbusTcpCommunicationState;
 const char* TcpServerErrorMessage;
 bool NewStateOfModbusTcpInterface;
 bool IsTcpServerIdentified;
+pthread_mutex_t SharedDataForGuiMutexLock = PTHREAD_MUTEX_INITIALIZER;
 
 //.................................................................................................
 // Preprocessor directives
@@ -206,12 +207,11 @@ bool communicateTcpServer(void){
 					}
 					if (0 == TextLoadedViaModbusTcp[ ChannelDescriptionTextLengths[M]-1 ]){ // checking that the text is properly terminated
 
-						pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;
-						pthread_mutex_lock( &xLock );
+						pthread_mutex_lock( &SharedDataForGuiMutexLock );
 						DescriptionTextCopies[M] = TextLoadedViaModbusTcp;
 						TableOfSharedDataForLowLevel[M].setDescription( &DescriptionTextCopies[M] );
 						TableOfSharedDataForGui[M].setDescription( &DescriptionTextCopies[M] );
-						pthread_mutex_unlock( &xLock );
+						pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 
 						ReturnValue = true;
 #if 0 // debugging
