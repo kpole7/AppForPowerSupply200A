@@ -166,6 +166,7 @@ bool communicateTcpServer(void){
 			NewStateOfModbusTcpInterface = true;
 	    	return ReturnValue;
 		}
+		assert( (0 != NumberOfChannels) && (NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS) );
 
 		// Checking whether the control is remote or local
 		if ((uint8_t)getLoadedDataUInt16( TCP_SERVER_ADDRESS_IS_REMOTE_CONTROL ) != ControlFromGuiHere.load()){

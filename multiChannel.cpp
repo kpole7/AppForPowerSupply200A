@@ -120,6 +120,7 @@ void peripheralThread(void) {
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
     while (!ExitingFlag.load()) {
+    	assert( NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS );
 		clock_gettime(CLOCK_REALTIME, &TimeSpecification1);
 		waitForSynchronization();
 
@@ -477,6 +478,7 @@ uint8_t configurationFileParsing(void) {
 // the function works as a Modbus RTU master
 void communicateAllPowerSources( void ){
 	uint8_t CurrentChannel;
+	assert( (0 != NumberOfChannels) && (NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS) );
 	for( CurrentChannel=0; CurrentChannel<NumberOfChannels; CurrentChannel++ ){
 		if(TableOfTransmissionChannel[CurrentChannel].isOpen()){
 			TableOfTransmissionChannel[CurrentChannel].singleInquiryOfSlave( CurrentChannel );
@@ -572,6 +574,7 @@ void waitForSynchronization(void){
 // TableOfSharedDataForGui
 // TableOfSharedDataForTcpServer
 void synchronizeDataAcrossThreads(void){
+	assert( NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS );
     for ( int J = 0; J < NumberOfChannels; J++) {
     	// Data synchronization between TableOfSharedDataForLowLevel and TableOfSharedDataForGui
     	pthread_mutex_lock( &SharedDataForGuiMutexLock );

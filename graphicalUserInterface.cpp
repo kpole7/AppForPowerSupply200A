@@ -763,6 +763,7 @@ SetPointInputGroup::SetPointInputGroup(int X, int Y, int W, int H, const char* L
 }
 
 void SetPointInputGroup::setChannelDisplayingSetPointEntryDialog( int16_t NewValue ){
+	assert( (0 != NumberOfChannels) && (NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS) );
 	if ((0 <= NewValue) && (NewValue < NumberOfChannels)){
 		ChannelThatDisplaysInputValueDialog = NewValue;
 	}
@@ -954,6 +955,7 @@ int16_t DiagnosticsGroup::getChannelDisplayingDiagnostics(){
 }
 
 void DiagnosticsGroup::setChannelDisplayingDiagnostics( int16_t NewValue ){
+	assert( (0 != NumberOfChannels) && (NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS) );
 	if ((0 <= NewValue) && (NewValue < NumberOfChannels)){
 		ChannelThatDisplaysDiagnostics = NewValue;
 	}
@@ -1032,6 +1034,7 @@ static void changeSetPointValueButtonCallback(Fl_Widget* Widget, void* Data) {
 
 	SetPointInputGroupPtr->setLastValidInputString(	MyGroup->getLastAcceptedValueCString() );
 
+	assert( (0 != NumberOfChannels) && (NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS) );
 	for (int J = 0; J < NumberOfChannels; J++) {
     	if (J < IndexOfGroup){
 			if(TableOfGroupsPtr[J] != nullptr){
@@ -1068,6 +1071,7 @@ static void closeSetPointDialogCallback(Fl_Widget* Widget, void* Data){
 
 static void closeSetPointDialogInternals(void){
 	SetPointInputGroupPtr->closeDialog();
+	assert( (0 != NumberOfChannels) && (NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS) );
 	for (int J = 0; J < NumberOfChannels; J++) {
 		if(TableOfGroupsPtr[J] != nullptr){
 			TableOfGroupsPtr[J]->position( 0, channelVerticalPosition(J) );
@@ -1216,6 +1220,7 @@ static void diagnosticsButtonCallback(Fl_Widget* Widget, void* Data){
 	MyGroup = (ChannelGuiGroup*)(Widget->parent());
 	IndexOfGroup = MyGroup->getGroupID();
 
+	assert( (0 != NumberOfChannels) && (NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS) );
 	if (IndexOfGroup == DiagnosticsGroupPtr->getChannelDisplayingDiagnostics()){
 		DiagnosticsGroupPtr->closeGroup();
 	    for (int J = 0; J < NumberOfChannels; J++) {
@@ -1425,6 +1430,7 @@ void restoreChannelWidgets(void* Data){
 	(void)Data; // intentionally unused
 	uint8_t J;
 	LargeErrorMessage->hide();
+	assert( (0 != NumberOfChannels) && (NumberOfChannels <= MAX_NUMBER_OF_SERIAL_PORTS) );
 	for (J = 0; J < NumberOfChannels; J++) {
 		TableOfGroupsPtr[J]->restoreInitialState();
 	}
