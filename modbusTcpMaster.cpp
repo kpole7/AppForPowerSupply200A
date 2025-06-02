@@ -21,6 +21,8 @@ ModbusTcpClientStateClass ModbusTcpCommunicationState;
 const char* TcpServerErrorMessage;
 bool NewStateOfModbusTcpInterface;
 bool IsTcpServerIdentified;
+
+// This is mutex for TableOfSharedDataForGui
 pthread_mutex_t SharedDataForGuiMutexLock = PTHREAD_MUTEX_INITIALIZER;
 
 //.................................................................................................

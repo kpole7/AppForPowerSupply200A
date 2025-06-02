@@ -259,9 +259,13 @@ void initializeWidgetsOfChannels(void){
 }
 
 void StateMarkWidget::draw(){
-    ChannelGuiGroup* parentGroup;
-    parentGroup = (ChannelGuiGroup*)(this->parent());
-	drawMarkInCircle( x(), y(), w(), h(), TableOfSharedDataForGui[parentGroup->getGroupID()].getStateOfCommunication() );
+    ChannelGuiGroup* parentGroup = (ChannelGuiGroup*)(this->parent());
+
+	pthread_mutex_lock( &SharedDataForGuiMutexLock );
+	CommunicationStatesClass TemporaryState = TableOfSharedDataForGui[parentGroup->getGroupID()].getStateOfCommunication();
+	pthread_mutex_unlock( &SharedDataForGuiMutexLock );
+
+	drawMarkInCircle( x(), y(), w(), h(), TemporaryState );
 }
 
 void BoxWithBackground::draw(){
@@ -581,9 +585,11 @@ void ChannelGuiGroup::updateSettingsButtonsAndPowerDownWigets( CommunicationStat
 }
 
 void ChannelGuiGroup::setDescriptionLabel(){
+	pthread_mutex_lock( &SharedDataForGuiMutexLock );
 	if (nullptr != TableOfSharedDataForGui[GroupID].getDescription()){
 		ChannelDescriptionPtr->label( (*TableOfSharedDataForGui[GroupID].getDescription()).c_str() );
 	}
+	pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 }
 
 void ChannelGuiGroup::refreshPhysicalID( uint16_t PhysicalIdRegister ){
@@ -805,8 +811,10 @@ uint16_t SetPointInputGroup::getMulticlickProofSetpointValue( uint8_t ChannelInd
 	DataSharingInterface* InterfaceDataPtr;
 
 	if (0 == MulticlickCounter.load()){
+		pthread_mutex_lock( &SharedDataForGuiMutexLock );
 		InterfaceDataPtr = &TableOfSharedDataForGui[ChannelIndex];
 		OfflineSetpointValue = InterfaceDataPtr->getModbusRegister(MODBUS_ADDRES_REQUIRED_VALUE);
+		pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 	}
 	MulticlickCounter.store(2);
 	return OfflineSetpointValue;
@@ -842,6 +850,8 @@ void DiagnosticsGroup::updateDataAndWidgets(){
 	static char DiagnosticsText[400];
 	char* LastErrorTextPtr;
 	CommunicationStatesClass CommunicationPerformance;
+
+	pthread_mutex_lock( &SharedDataForGuiMutexLock );
 
 	CommunicationPerformance = TableOfSharedDataForGui[ChannelThatDisplaysDiagnostics].getStateOfCommunication();
 
@@ -935,6 +945,8 @@ void DiagnosticsGroup::updateDataAndWidgets(){
 				(TableOfSharedDataForGui[ChannelThatDisplaysDiagnostics].getNameOfPortPtr())->c_str() );
 	}
 	DiagnosticTextBoxPtr->label( DiagnosticsText );
+
+	pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 }
 
 int16_t DiagnosticsGroup::getChannelDisplayingDiagnostics(){
@@ -971,11 +983,13 @@ static void powerOnCallback(Fl_Widget* Widget, void* Data){
 	MyGroup = (ChannelGuiGroup*)(Widget->parent());
 	Channel = MyGroup->getGroupID();
 
+	pthread_mutex_lock( &SharedDataForGuiMutexLock );
 	if ((TableOfSharedDataForGui[Channel].getStateOfCommunication() == CommunicationStatesClass::HEALTHY) ||
 			(TableOfSharedDataForGui[Channel].getStateOfCommunication() == CommunicationStatesClass::TEMPORARY_ERRORS))
 	{
 		TableOfSharedDataForGui[Channel].placeNewOrder( RTU_ORDER_POWER_ON, 0 );
 	}
+	pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 }
 
 static void powerOffCallback(Fl_Widget* Widget, void* Data){
@@ -987,6 +1001,7 @@ static void powerOffCallback(Fl_Widget* Widget, void* Data){
 	MyGroup = (ChannelGuiGroup*)(Widget->parent());
 	Channel = MyGroup->getGroupID();
 
+	pthread_mutex_lock( &SharedDataForGuiMutexLock );
 	if (PoweringDownStatesClass::TIMEOUT_EXCEEDED != TableOfSharedDataForGui[Channel].getPoweringDownState()){
 		TableOfSharedDataForGui[Channel].placeNewOrder( RTU_ORDER_DELAYED_POWER_OFF, 0 );
 	}
@@ -997,6 +1012,8 @@ static void powerOffCallback(Fl_Widget* Widget, void* Data){
 #if DEBUG_POWERING_DOWN_STATE_MACHINE
 	std::cout << " powerOffCallback; zasilacz " << (int)Channel << " automat w stanie " << (int)TableOfSharedDataForGui[Channel].getPoweringDownState() << std::endl;
 #endif
+
+	pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 }
 
 // Callback function called when the 'change' button is pressed
@@ -1088,7 +1105,9 @@ static void acceptSetPointDialogCallback(Fl_Widget* Widget, void* Data){
 		NewValueUint16 = 0xFFFFu; // to avoid overflow
 	}
 
+	pthread_mutex_lock( &SharedDataForGuiMutexLock );
 	TableOfSharedDataForGui[Channel].placeNewOrder( RTU_ORDER_SET_VALUE, NewValueUint16 );
+	pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 
 	SetPointInputGroupPtr->resetMulticlick();
 }
@@ -1181,7 +1200,10 @@ static void relativeChangeOfSetPointCallback(Fl_Widget* Widget, void* Data){
 		SetPointValue = 0;
 	}
 	SetPointInputGroupPtr->setOfflineSetpointValue( (uint16_t)SetPointValue );
+
+	pthread_mutex_lock( &SharedDataForGuiMutexLock );
 	TableOfSharedDataForGui[Channel].placeNewOrder( RTU_ORDER_SET_VALUE, (uint16_t)SetPointValue );
+	pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 }
 
 // Callback function called when the 'i' button is pressed
@@ -1317,17 +1339,16 @@ void updateChannelWidgets(void* Data) {
 	ChannelGuiGroup* GroupPtr;
 	uint16_t Channel;
 	double FloatingPointValueOfCurrent, FloatingPointValueSetPoint;
-	DataSharingInterface* InterfaceDataPtr;
 
 	if (nullptr == Data){
 		return;
 	}
 	GroupPtr = (ChannelGuiGroup*)Data;
 	Channel = GroupPtr->getGroupID();
-	InterfaceDataPtr = &TableOfSharedDataForGui[Channel];
 
 	if (0 != GroupPtr->visible()){
-
+		pthread_mutex_lock( &SharedDataForGuiMutexLock );
+		DataSharingInterface* InterfaceDataPtr = &TableOfSharedDataForGui[Channel];
 		GroupPtr->refreshPowerOnOffLabel( InterfaceDataPtr->getStateOfCommunication(), InterfaceDataPtr->getPowerSwitchState() );
 
 		// the calculation is described in the documentation
@@ -1343,6 +1364,7 @@ void updateChannelWidgets(void* Data) {
 		GroupPtr->refreshPhysicalID( InterfaceDataPtr->getPowerSupplyUnitId() );
 
 		GroupPtr->updateSettingsButtonsAndPowerDownWigets( InterfaceDataPtr->getStateOfCommunication(), InterfaceDataPtr->getPoweringDownState() );
+		pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 	}
 	else{
 		if (0 == Channel){

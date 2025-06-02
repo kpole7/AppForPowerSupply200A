@@ -187,6 +187,7 @@ void peripheralThread(void) {
     }
 }
 
+// This function is run before the peripheral thread starts
 void intializeSharedData(void){
     for (int J = 0; J < MAX_NUMBER_OF_SERIAL_PORTS; J++) {
     	TableOfSharedDataForLowLevel[J].initialize();

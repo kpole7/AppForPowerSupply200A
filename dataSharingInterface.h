@@ -79,6 +79,9 @@ extern DataSharingInterface TableOfSharedDataForLowLevel[MAX_NUMBER_OF_SERIAL_PO
 // this array is used in the main FLTK thread
 extern DataSharingInterface TableOfSharedDataForGui[MAX_NUMBER_OF_SERIAL_PORTS];
 
+// This is mutex for TableOfSharedDataForGui
+extern pthread_mutex_t SharedDataForGuiMutexLock;
+
 //.................................................................................................
 // Global function prototypes
 //.................................................................................................

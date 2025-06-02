@@ -39,7 +39,6 @@ extern ModbusTcpClientStateClass ModbusTcpCommunicationState;
 extern const char* TcpServerErrorMessage;
 extern bool NewStateOfModbusTcpInterface;
 extern bool IsTcpServerIdentified;
-extern pthread_mutex_t SharedDataForGuiMutexLock;
 
 //.................................................................................................
 // Global function prototypes
