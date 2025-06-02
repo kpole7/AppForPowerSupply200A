@@ -1,3 +1,6 @@
+BUILD_DIR = build
+BIN = $(BUILD_DIR)/powerSource200A_Svedberg
+
 CC	        = gcc
 CXX	        = g++
 OBJCOPY	    = objcopy
@@ -31,10 +34,8 @@ CCSRC       = powerSource200A_Svedberg.cpp \
               modbusTcpMaster.cpp \
               git_revision.cpp
 
-OBJS        = $(CCSRC:.cpp=.o) $(CSRC:.c=.o)
-DEPS        = $(CCSRC:.cpp=.d) $(CSRC:.c=.d)
-
-BIN         = powerSource200A_Svedberg
+OBJS = $(addprefix $(BUILD_DIR)/, $(CCSRC:.cpp=.o) $(CSRC:.c=.o))
+DEPS = $(OBJS:.o=.d)
 
 .PHONY: clean all
 
@@ -45,27 +46,36 @@ git_revision.cpp:
 
 $(BIN): $(OBJS)
 	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
-	cp $(BIN) testing_TCP_master
-	cp $(BIN) testing_TCP_slave
-
-clean:
-	rm -f $(DEPS)
-	rm -f $(OBJS)
-	rm -f $(BIN) testing_TCP_master/$(BIN)
-	rm -f $(BIN) testing_TCP_slave/$(BIN)
-#	rm -f git_revision.cpp
+	mkdir -p build/testing_TCP_master
+	mkdir -p build/testing_TCP_slave
+	cp $(BIN) build/testing_TCP_master/powerSource200A_Svedberg
+	cp $(BIN) build/testing_TCP_slave/powerSource200A_Svedberg
+	cp testing_TCP_master/powerSource200A_Svedberg.cfg build/testing_TCP_master/powerSource200A_Svedberg.cfg
+	cp testing_TCP_slave/powerSource200A_Svedberg.cfg build/testing_TCP_slave/powerSource200A_Svedberg.cfg
 
 # ---------------------------------------------------------------------------
 # rules for code generation
 # ---------------------------------------------------------------------------
-%.o:    %.c
-	$(CC) $(CFLAGS) -o $@ -c $<
-
-%.o:    %.cpp
+$(BUILD_DIR)/%.o: %.cpp
+	@mkdir -p $(BUILD_DIR)
 	$(CXX) $(CCFLAGS) -o $@ -c $<
+
+$(BUILD_DIR)/%.o: %.c
+	@mkdir -p $(BUILD_DIR)
+	@mkdir -p build/freeModbus
+	@mkdir -p build/freeModbus/ascii
+	@mkdir -p build/freeModbus/functions
+	@mkdir -p build/freeModbus/port
+	@mkdir -p build/freeModbus/rtu
+	@mkdir -p build/freeModbus/tcp
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 # ---------------------------------------------------------------------------
 #  # compiler generated dependencies
 # ---------------------------------------------------------------------------
 -include $(DEPS)
+
+clean:
+	rm -rf $(BUILD_DIR)
+	rm -f git_revision.cpp
 
