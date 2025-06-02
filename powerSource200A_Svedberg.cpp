@@ -46,12 +46,6 @@ std::atomic<bool> ActiveModbusTcpServer(false);
 WindowEscProof* ApplicationWindow;
 
 //.................................................................................................
-// Local variables
-//.................................................................................................
-
-static bool ExitingFlag(false);
-
-//.................................................................................................
 // Local function prototypes
 //.................................................................................................
 
@@ -129,13 +123,13 @@ static void exitProcedure(void){
 		closeModbusTcpSlave();
 		ActiveModbusTcpServer.store(false);
 	}
-
+	ExitingFlag.store( true );
 	closeTcpClient(); // this function checks dependencies
 
-	ExitingFlag = true;
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
-
+#if 0
 	printf("\nKoniec programu\n");
+#endif
 }
 
 // The function searches for the directory where the executable file is located

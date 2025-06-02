@@ -55,6 +55,8 @@ uint16_t TableOfSharedDataForTcpServer[MAX_NUMBER_OF_SERIAL_PORTS+1][MODBUS_TCP_
 // This is a mutex for TableOfSharedDataForTcpServer
 pthread_mutex_t TcpSlaveMutexLock = PTHREAD_MUTEX_INITIALIZER;
 
+std::atomic<bool> ExitingFlag(false);
+
 //.................................................................................................
 // Local variables
 //.................................................................................................

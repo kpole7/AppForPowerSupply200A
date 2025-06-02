@@ -82,6 +82,8 @@ extern DataSharingInterface TableOfSharedDataForGui[MAX_NUMBER_OF_SERIAL_PORTS];
 // This is mutex for TableOfSharedDataForGui
 extern pthread_mutex_t SharedDataForGuiMutexLock;
 
+extern std::atomic<bool> ExitingFlag;
+
 //.................................................................................................
 // Global function prototypes
 //.................................................................................................

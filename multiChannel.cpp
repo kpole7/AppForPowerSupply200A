@@ -107,9 +107,8 @@ void peripheralThread(void) {
 			return;
 	    }
 	}
-	else{
-		initializeTcpClientVariables();
-	}
+
+	initializeTcpClientVariables();
 
 	clock_gettime(CLOCK_REALTIME, &TimeSpecification0);
 
@@ -120,7 +119,7 @@ void peripheralThread(void) {
 
     std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-    while (true) {
+    while (!ExitingFlag.load()) {
 		clock_gettime(CLOCK_REALTIME, &TimeSpecification1);
 		waitForSynchronization();
 
