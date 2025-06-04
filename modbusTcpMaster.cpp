@@ -31,7 +31,7 @@ pthread_mutex_t SharedDataForGuiMutexLock = PTHREAD_MUTEX_INITIALIZER;
 
 #define READING_TCP_REGISTERS_NUMBER	22
 
-#define MODBUS_TCP_HEADER_SIZE			9
+#define MODBUS_TCP_HEADER_SIZE			9u
 
 //.................................................................................................
 // Local variables
@@ -74,9 +74,9 @@ static int loadSectorFromServer( uint8_t Sector );
 
 static int sendPrimitiveDataToServer( uint16_t RegisterAddress, uint16_t RegisterNewValue );
 
-static inline uint8_t getLoadedDataUInt8( uint8_t Offset );
+static uint8_t getLoadedDataUInt8( uint8_t Offset );
 
-static inline uint8_t getLoadedDataUInt16( uint8_t Offset );
+static uint16_t getLoadedDataUInt16( uint8_t Offset );
 
 //.................................................................................................
 // Function definitions
@@ -293,12 +293,10 @@ static bool waitForResponse(int Socket, int TimeoutInSeconds) {
 
     if (Ready == -1) {
     	ModbusTcpCommunicationState = ModbusTcpClientStateClass::ERROR_SELECT;
-//    	AuxiliaryTcpClientError = errno;
         return false;
     }
     if (Ready == 0) {
     	ModbusTcpCommunicationState = ModbusTcpClientStateClass::ERROR_TIMEOUT;
-//    	AuxiliaryTcpClientError = TimeoutInSeconds;
         return false;
     }
     return true;  // socket ready to be read
@@ -410,7 +408,7 @@ static int receiveResponseFrameForReadRequest( uint8_t ExpectedNumberOfRegisters
         return -2;
     }
 
-    if (BytesReceived < MODBUS_TCP_HEADER_SIZE) {
+    if ((unsigned int)BytesReceived < MODBUS_TCP_HEADER_SIZE) {
     	ModbusTcpCommunicationState = ModbusTcpClientStateClass::ERROR_RECEIVED_NOT_COMPLETE_FRAME;
         return -3;
     }
@@ -418,12 +416,11 @@ static int receiveResponseFrameForReadRequest( uint8_t ExpectedNumberOfRegisters
     // check for an error message
     if (ResponseBuffer[7] == 0x83) {
     	ModbusTcpCommunicationState = ModbusTcpClientStateClass::ERROR_RECEIVED_FROM_MODBUS_TCP_SLAVE;
-//    	AuxiliaryTcpClientError = (int)ResponseBuffer[8];
         return -4;
     }
 
     // Checking the number of data bytes (for 10 registers: 20 bytes + 9 header bytes = 29)
-    if ((2*ExpectedNumberOfRegisters+MODBUS_TCP_HEADER_SIZE != BytesReceived) || (2*ExpectedNumberOfRegisters != ResponseBuffer[8])) {
+    if ((2*ExpectedNumberOfRegisters+MODBUS_TCP_HEADER_SIZE != (unsigned int)BytesReceived) || (2*ExpectedNumberOfRegisters != ResponseBuffer[8])) {
     	ModbusTcpCommunicationState = ModbusTcpClientStateClass::ERROR_NUMBER_OF_RECEIVED_DATA;
         return -5;
     }
@@ -451,7 +448,7 @@ static int receiveResponseFrameForWriteRequest( uint16_t RegisterAddress, uint16
         return -2;
     }
 
-    if (BytesReceived < MODBUS_TCP_HEADER_SIZE) {
+    if ((unsigned int)BytesReceived < MODBUS_TCP_HEADER_SIZE) {
     	ModbusTcpCommunicationState = ModbusTcpClientStateClass::ERROR_RECEIVED_NOT_COMPLETE_FRAME;
         return -3;
     }
@@ -459,7 +456,6 @@ static int receiveResponseFrameForWriteRequest( uint16_t RegisterAddress, uint16
     // check for an error message
     if (ResponseBuffer[7] == 0x83) {
     	ModbusTcpCommunicationState = ModbusTcpClientStateClass::ERROR_RECEIVED_FROM_MODBUS_TCP_SLAVE;
-//    	AuxiliaryTcpClientError = (int)ResponseBuffer[8];
         return -4;
     }
 
@@ -569,10 +565,12 @@ static int sendPrimitiveDataToServer( uint16_t RegisterAddress, uint16_t Registe
 	return 0;
 }
 
-static inline uint8_t getLoadedDataUInt8( uint8_t Offset ){
+static uint8_t getLoadedDataUInt8( uint8_t Offset ){
+	assert( MODBUS_TCP_HEADER_SIZE + Offset < (unsigned int)sizeof(ResponseBuffer) );
 	return ResponseBuffer[MODBUS_TCP_HEADER_SIZE + Offset];
 }
 
-static inline uint8_t getLoadedDataUInt16( uint8_t Offset ){
+static uint16_t getLoadedDataUInt16( uint8_t Offset ){
+	assert( MODBUS_TCP_HEADER_SIZE + Offset+1 < (unsigned int)sizeof(ResponseBuffer) );
 	return (((uint16_t)ResponseBuffer[MODBUS_TCP_HEADER_SIZE + Offset]) << 8) + (uint16_t)ResponseBuffer[MODBUS_TCP_HEADER_SIZE + Offset+1];
 }
