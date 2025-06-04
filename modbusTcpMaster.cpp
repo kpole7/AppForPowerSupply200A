@@ -200,6 +200,7 @@ bool communicateTcpServer(void){
 		printf("\n");
 #endif
 		for(int M = 0; M < MAX_NUMBER_OF_SERIAL_PORTS; M++ ){
+			bool IsDescriptionSet = false;
 			if (0 != ChannelDescriptionTextLengths[M]){
 				if (CHANNEL_DESCRIPTION_MAX_LENGTH > ChannelDescriptionTextLengths[M]){		// checking that the length of the text is correct
 					Result = loadPrimitiveDataFromServer(
@@ -218,11 +219,20 @@ bool communicateTcpServer(void){
 						pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 
 						ReturnValue = true;
+						IsDescriptionSet = true;
 #if 0 // debugging
 						std::cout << DescriptionTextCopies[M] << std::endl;
 #endif
 					}
 				}
+			}
+			if (!IsDescriptionSet){
+				// when the description text is empty
+				TableOfSharedDataForLowLevel[M].setDescription( nullptr );
+
+				pthread_mutex_lock( &SharedDataForGuiMutexLock );
+				TableOfSharedDataForGui[M].setDescription( nullptr );
+				pthread_mutex_unlock( &SharedDataForGuiMutexLock );
 			}
 		}
 		ChannelDescriptionTextRunUp = 1;
