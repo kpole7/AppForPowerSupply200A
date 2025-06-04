@@ -392,7 +392,7 @@ uint8_t configurationFileParsing(void) {
         	ChannelDescriptionTextsPtr[J] = nullptr;
         }
 
-        uint16_t SumOfLengths = 0;
+        ChannelDescriptionPlainTextsSize = 0;
         for (uint8_t J=0; J < MAX_NUMBER_OF_SERIAL_PORTS; J++ ){
         	ChannelDescriptionLength[J] = (uint16_t)TableOfTransmissionChannel[J].Descriptor.length();
         	if (ChannelDescriptionLength[J] != 0){
@@ -401,17 +401,21 @@ uint8_t configurationFileParsing(void) {
         	if (ChannelDescriptionLength[J] % 2 == 1){
         		ChannelDescriptionLength[J]++;	// each text must be aligned to 2 bytes
         	}
-        	SumOfLengths += ChannelDescriptionLength[J];
+        	ChannelDescriptionPlainTextsSize += ChannelDescriptionLength[J];
+
+        	assert( ChannelDescriptionLength[J] < CHANNEL_DESCRIPTION_MAX_LENGTH+2 );
         }
-        ChannelDescriptionPlainTextsPtr = new char[SumOfLengths];
-        memset( ChannelDescriptionPlainTextsPtr, 0, SumOfLengths );
+    	assert( ChannelDescriptionPlainTextsSize < MAX_NUMBER_OF_SERIAL_PORTS*(CHANNEL_DESCRIPTION_MAX_LENGTH+2) );
+
+        ChannelDescriptionPlainTextsPtr = new char[ChannelDescriptionPlainTextsSize];
+        memset( ChannelDescriptionPlainTextsPtr, 0, ChannelDescriptionPlainTextsSize );
 
         uint16_t N = 0;
         for (uint8_t J=0; J < MAX_NUMBER_OF_SERIAL_PORTS; J++ ){
         	if (ChannelDescriptionLength[J] != 0){
             	ChannelDescriptionTextsPtr[J] = &ChannelDescriptionPlainTextsPtr[N];
             	N += ChannelDescriptionLength[J];
-            	assert( N <= SumOfLengths );
+            	assert( N <= ChannelDescriptionPlainTextsSize );
             	memcpy( ChannelDescriptionTextsPtr[J], TableOfTransmissionChannel[J].Descriptor.c_str(), ChannelDescriptionLength[J] );
             	if (0 == ChannelDescriptionPlainTextsPtr[ N-2 ]){
             		ChannelDescriptionPlainTextsPtr[ N-1 ] = 0;

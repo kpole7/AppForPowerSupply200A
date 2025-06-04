@@ -121,11 +121,11 @@ extern pthread_mutex_t TcpSlaveMutexLock;
 // This is a table of Modbus registers containing the description lengths of each power supply unit.
 // These registers occupy addresses from TCP_SERVER_DESCRIPTION_LENGTHS_ADDRESS
 // These registers are initialized once, at program startup, and remain constant thereafter
-// View comments on ChannelDescriptionTextsPtr
+// View comments on ChannelDescriptionPlainTextsPtr
 extern uint16_t ChannelDescriptionLength[MAX_NUMBER_OF_SERIAL_PORTS];
 
 // This is a table of pointers to texts that are the description of channels
-// View comments on ChannelDescriptionTextsPtr
+// View comments on ChannelDescriptionPlainTextsPtr
 extern char* ChannelDescriptionTextsPtr[MAX_NUMBER_OF_SERIAL_PORTS];
 
 // ChannelDescriptionPlainTextsPtr is a pointer to the allocated memory area used for the description of channels.
@@ -151,6 +151,8 @@ extern char* ChannelDescriptionTextsPtr[MAX_NUMBER_OF_SERIAL_PORTS];
 // TCP client should send a request for 5 registers (that is ChannelDescriptionLength[2]/2)
 // from address TCP_SERVER_DESCRIPTION_LENGTHS_ADDRESS + 3 * TCP_SERVER_DESCRIPTION_ADDRESS_STEP
 extern char* ChannelDescriptionPlainTextsPtr;
+
+extern uint16_t ChannelDescriptionPlainTextsSize;
 
 //.................................................................................................
 // Global function prototypes

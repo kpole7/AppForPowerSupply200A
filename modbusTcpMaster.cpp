@@ -227,7 +227,7 @@ bool communicateTcpServer(void){
 				}
 			}
 			if (!IsDescriptionSet){
-				// when the description text is empty
+				// when the description text is empty or there is any other problem; the protection is redundant
 				TableOfSharedDataForLowLevel[M].setDescription( nullptr );
 
 				pthread_mutex_lock( &SharedDataForGuiMutexLock );
