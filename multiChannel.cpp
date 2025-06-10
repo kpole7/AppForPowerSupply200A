@@ -422,7 +422,7 @@ uint8_t configurationFileParsing(void) {
             	}
         	}
         	else{
-        		ChannelDescriptionTextsPtr[J] = nullptr;
+        		ChannelDescriptionTextsPtr[J] = nullptr; // redundant protection
         	}
 #if 0	// debugging
         	for( int M = 0; M < ChannelDescriptionLength[J]; M++ ){

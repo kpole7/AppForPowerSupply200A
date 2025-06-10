@@ -323,12 +323,11 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
             	return MB_ENOREG;
             }
 
-
-
-
             // This Modbus command is a valid request to read a text
         	iRegIndex = 0;
     		while( usNRegs > 0 ){
+    			assert( (ChannelDescriptionTextsPtr[Sector])+(2*iRegIndex+1) - ChannelDescriptionPlainTextsPtr <
+    					ChannelDescriptionPlainTextsSize );
     			*pucRegBuffer = ( UCHAR ) ((ChannelDescriptionTextsPtr[Sector])[2*iRegIndex]  );
     			pucRegBuffer++;
     			*pucRegBuffer = ( UCHAR ) ((ChannelDescriptionTextsPtr[Sector])[2*iRegIndex+1]);
