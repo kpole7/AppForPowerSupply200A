@@ -296,6 +296,7 @@ void BlankRectangleWidget::draw(){
 }
 
 ChannelGuiGroup::ChannelGuiGroup(int X, int Y, int W, int H, const char* L) : Fl_Group(X, Y, W, H, L) {
+	this->begin();
 
 	LastAcceptedNumericValue = 0.0;
 	LastAcceptedValueStringPtr = new std::string("");
@@ -382,7 +383,6 @@ ChannelGuiGroup::ChannelGuiGroup(int X, int Y, int W, int H, const char* L) : Fl
 
 	BottomLinePtr = new HorizontalLineWidget( X, Y+GROUPS_OF_WIDGETS_SPACING-1, MAIN_WINDOW_WIDTH, 1 );
 
-//	OnPowerDownWarning1Ptr  = new Fl_Box(X + HIGH_CURRENT_ON_POWER_DOWN_TEXT_X, Y+19, 400, 35, "UWAGA     Prąd nie wyzerował się\nŻeby wyłączyć pomimo to, naciśnij ponownie \"Wyłącz\"");
 	OnPowerDownWarning1Ptr  = new Fl_Box(X + HIGH_CURRENT_ON_POWER_DOWN_TEXT_X, Y+19, 350, 18, "UWAGA     Prąd nie wyzerował się");
 	OnPowerDownWarning1Ptr->box(FL_FLAT_BOX);
 	OnPowerDownWarning1Ptr->color(FL_YELLOW);
@@ -685,6 +685,8 @@ int WindowEscProof::handle(int event){
 }
 
 SetPointInputGroup::SetPointInputGroup(int X, int Y, int W, int H, const char* L) : Fl_Group(X, Y, W, H, L) {
+	this->begin();
+
 	ChannelThatDisplaysInputValueDialog = -1;
 
 	RectangleFrameWidget* RectangleFrameWidgetPtr1 = new RectangleFrameWidget( X+(2*W)/8-2, Y+(1*H)/16-2, (4*W)/8+4, (14*H)/16+4 );
@@ -834,6 +836,8 @@ void multiclickCountdown(void){
 }
 
 DiagnosticsGroup::DiagnosticsGroup(int X, int Y, int W, int H, const char* L) : Fl_Group(X, Y, W, H, L) {
+	this->begin();
+
 	ChannelThatDisplaysDiagnostics = -1;
 
 	DiagnosticTextBoxPtr = new Fl_Box(X, Y, W, H, "tu powinny być dane diagnostyczne");
