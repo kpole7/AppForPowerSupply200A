@@ -330,6 +330,14 @@ uint8_t configurationFileParsing(void) {
                 // matches[1] includes value of 'id'
                 // matches[2] includes value of 'port'
                 // matches[3] includes value of 'opis'
+
+            	if (NumberOfChannels >= MAX_NUMBER_OF_SERIAL_PORTS){
+                	std::cout << " Nieprawidłowe dane w pliku konfiguracyjnym (liczba zdefiniowanych zasilaczy > "
+                			<< MAX_NUMBER_OF_SERIAL_PORTS << ") " << std::endl;
+                    File.close();
+                	return 0;
+            	}
+
             	PhysicalIdText = Matches[1];
             	TemporaryLongInteger = strtoul( PhysicalIdText.c_str(), &TemporaryEndPtr, MatchesDecimalPattern? 10 : 16 );
             	if (TemporaryLongInteger > 0xFFu){
@@ -337,35 +345,57 @@ uint8_t configurationFileParsing(void) {
                     File.close();
                 	return 0;
             	}
-            	TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId = TemporaryLongInteger;
 
-                TableOfTransmissionChannel[NumberOfChannels].PortName = Matches[2];
+            	// Check for duplicates in the configuration file
+            	bool DuplicatedPort = false;
+            	std::string TemporaryPortName = Matches[2];
+            	for (uint8_t J = 0; J < NumberOfChannels; J++ ){
+            		if (TableOfTransmissionChannel[J].PowerSupplyExpectedId == (uint16_t)TemporaryLongInteger){
+            			DuplicatedPort = true;
+        				std::cout << " Nieprawidłowe dane w pliku konfiguracyjnym; w linii " << Line <<
+        						" powtórzono ID zasilacza: " << (uint16_t)TemporaryLongInteger << std::endl;
+            		}
+            		if (TableOfTransmissionChannel[J].PortName == TemporaryPortName){
+            			DuplicatedPort = true;
+            			std::cout << " Nieprawidłowe dane w pliku konfiguracyjnym; w linii " << Line <<
+            					" powtórnie użyto port: " << TemporaryPortName << std::endl;
+            		}
+            	}
+            	if (DuplicatedPort){
+                    File.close();
+                	return 0;
+            	}
+            	else{
+                	TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId = (uint16_t)TemporaryLongInteger;
 
-                TableOfTransmissionChannel[NumberOfChannels].Descriptor = Matches[3];
-    			if (TableOfTransmissionChannel[NumberOfChannels].Descriptor.length() > CHANNEL_DESCRIPTION_MAX_LENGTH){ // too many anyway
-    				TableOfTransmissionChannel[NumberOfChannels].Descriptor.resize( CHANNEL_DESCRIPTION_MAX_LENGTH );
-    			}
+                    TableOfTransmissionChannel[NumberOfChannels].PortName = TemporaryPortName;
 
-    			if ((TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId > 0) &&
-    					(TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId < 256))
-    			{
-    	            TableOfSharedDataForLowLevel[NumberOfChannels].setNameOfPortPtr( &TableOfTransmissionChannel[NumberOfChannels].PortName );
-    				TableOfSharedDataForLowLevel[NumberOfChannels].setDescription( &TableOfTransmissionChannel[NumberOfChannels].Descriptor );
-    				TableOfSharedDataForLowLevel[NumberOfChannels].setPowerSupplyUnitId( TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId );
+                    TableOfTransmissionChannel[NumberOfChannels].Descriptor = Matches[3];
+        			if (TableOfTransmissionChannel[NumberOfChannels].Descriptor.length() > CHANNEL_DESCRIPTION_MAX_LENGTH){ // too many anyway
+        				TableOfTransmissionChannel[NumberOfChannels].Descriptor.resize( CHANNEL_DESCRIPTION_MAX_LENGTH );
+        			}
 
-    	            if (VerboseMode){
-    	                char TemporaryHexadecimalText[12];
-    	                snprintf( TemporaryHexadecimalText, sizeof(TemporaryHexadecimalText)-1, " = 0x%02X",
-    	                		TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId );
-    					std::cout << " Id: "   << TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId << TemporaryHexadecimalText << std::endl;
-    					std::cout << " Port: " << TableOfTransmissionChannel[NumberOfChannels].PortName << std::endl;
-    					std::cout << " Opis: " << TableOfTransmissionChannel[NumberOfChannels].Descriptor << std::endl;
-    	            }
-    				NumberOfChannels++;
-    			}
-    			else{
-    				std::cout << " Nieprawidłowy numer ID zasilacza w linii: " << Line << std::endl;
-    			}
+        			if ((TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId > 0) &&
+        					(TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId < 256))
+        			{
+        	            TableOfSharedDataForLowLevel[NumberOfChannels].setNameOfPortPtr( &TableOfTransmissionChannel[NumberOfChannels].PortName );
+        				TableOfSharedDataForLowLevel[NumberOfChannels].setDescription( &TableOfTransmissionChannel[NumberOfChannels].Descriptor );
+        				TableOfSharedDataForLowLevel[NumberOfChannels].setPowerSupplyUnitId( TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId );
+
+        	            if (VerboseMode){
+        	                char TemporaryHexadecimalText[12];
+        	                snprintf( TemporaryHexadecimalText, sizeof(TemporaryHexadecimalText)-1, " = 0x%02X",
+        	                		TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId );
+        					std::cout << " Id: "   << TableOfTransmissionChannel[NumberOfChannels].PowerSupplyExpectedId << TemporaryHexadecimalText << std::endl;
+        					std::cout << " Port: " << TableOfTransmissionChannel[NumberOfChannels].PortName << std::endl;
+        					std::cout << " Opis: " << TableOfTransmissionChannel[NumberOfChannels].Descriptor << std::endl;
+        	            }
+        				NumberOfChannels++;
+        			}
+        			else{
+        				std::cout << " Nieprawidłowy numer ID zasilacza w linii: " << Line << std::endl;
+        			}
+            	}
             }
             else {
                 if (VerboseMode){
