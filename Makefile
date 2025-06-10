@@ -26,7 +26,7 @@ CSRC        = modbusTcpSlave.c \
               freeModbus/functions/mbfuncdisc.c \
               freeModbus/functions/mbutils.c 
 
-CCSRC       = powerSource200A_Svedberg.cpp \
+CCSRC       = main.cpp \
               modbusRtuMaster.cpp \
               multiChannel.cpp \
               dataSharingInterface.cpp \
@@ -46,12 +46,12 @@ git_revision.cpp:
 
 $(BIN): $(OBJS)
 	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
-	mkdir -p build/testing_TCP_master
-	mkdir -p build/testing_TCP_slave
-	cp $(BIN) build/testing_TCP_master/powerSource200A_Svedberg
-	cp $(BIN) build/testing_TCP_slave/powerSource200A_Svedberg
-	cp testing_TCP_master/powerSource200A_Svedberg.cfg build/testing_TCP_master/powerSource200A_Svedberg.cfg
-	cp testing_TCP_slave/powerSource200A_Svedberg.cfg build/testing_TCP_slave/powerSource200A_Svedberg.cfg
+	mkdir -p build/testing_RTU_master_TCP_master
+	mkdir -p build/testing_RTU_master_TCP_slave
+	cp $(BIN) build/testing_RTU_master_TCP_master/powerSource200A_Svedberg
+	cp $(BIN) build/testing_RTU_master_TCP_slave/powerSource200A_Svedberg
+	cp testing_RTU_master_TCP_master/powerSource200A_Svedberg.cfg build/testing_RTU_master_TCP_master/powerSource200A_Svedberg.cfg
+	cp testing_RTU_master_TCP_slave/powerSource200A_Svedberg.cfg build/testing_RTU_master_TCP_slave/powerSource200A_Svedberg.cfg
 
 # ---------------------------------------------------------------------------
 # rules for code generation
