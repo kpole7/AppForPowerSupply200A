@@ -36,6 +36,8 @@
  *	Modified by Steven Guo <gotop167@163.com>
  ***********************************************************/
 
+/* Modified by Krzysztof Olejarczyk */
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -59,7 +61,7 @@
 #define MB_TCP_FUNC         7
 
 /* ----------------------- Defines  -----------------------------------------*/
-#define MB_TCP_DEFAULT_PORT 1502 /* TCP listening port. */
+#define MB_TCP_DEFAULT_PORT 502 /* TCP listening port. */
 #define MB_TCP_POOL_TIMEOUT 50  /* pool timeout for event waiting. */
 #define MB_TCP_READ_TIMEOUT 1000        /* Maximum timeout to wait for packets. */
 #define MB_TCP_READ_CYCLE   100 /* Time between checking for new data. */
@@ -187,13 +189,13 @@ xMBPortTCPPool( void )
     tval.tv_usec = 5000;
     int             ret;
     USHORT          usLength;
-    int				FdIsSet;
+    int				FdIsSet;		/* K.O. modification */
 
     if( xClientSocket == INVALID_SOCKET )
     {
         /* Accept to client */
-    	n = select( xListenSocket + 1, &allset, NULL, NULL, NULL );
-        if( n < 0 )
+    	n = select( xListenSocket + 1, &allset, NULL, NULL, NULL );	/* K.O. modification */
+        if( n < 0 )							/* K.O. modification */
         {
             if( errno == EINTR )
             {
@@ -213,19 +215,19 @@ xMBPortTCPPool( void )
     {
         FD_ZERO( &fread );
         FD_SET( xClientSocket, &fread );
-        ret = select( xClientSocket + 1, &fread, NULL, NULL, &tval );
-        if( ( ret == SOCKET_ERROR ) || !ret )
+        ret = select( xClientSocket + 1, &fread, NULL, NULL, &tval );	/* K.O. modification */
+        if( ( ret == SOCKET_ERROR ) || !ret )				/* K.O. modification */
         {
             usleep( MB_TCP_READ_CYCLE ); // K.O. modification to not engage 100% of the CPU core time
             continue;
         }
         if( ret > 0 )
         {
-        	FdIsSet = FD_ISSET( xClientSocket, &fread );
-            if( FdIsSet )
+        	FdIsSet = FD_ISSET( xClientSocket, &fread );		/* K.O. modification */
+            if( FdIsSet )						/* K.O. modification */
             {
-            	ret = recv( xClientSocket, &aucTCPBuf[usTCPBufPos], usTCPFrameBytesLeft, 0 );
-            	if( ( ret == SOCKET_ERROR ) || ( !ret ) )
+            	ret = recv( xClientSocket, &aucTCPBuf[usTCPBufPos], usTCPFrameBytesLeft, 0 );	/* K.O. modification */
+            	if( ( ret == SOCKET_ERROR ) || ( !ret ) )		/* K.O. modification */
                 {
                     close( xClientSocket );
                     xClientSocket = INVALID_SOCKET;
@@ -249,7 +251,7 @@ xMBPortTCPPool( void )
                     else if( usTCPBufPos == ( MB_TCP_UID + usLength ) )
                     {
                         ( void )xMBPortEventPost( EV_FRAME_RECEIVED );
-                    	return TRUE;
+                        return TRUE;
                     }
                     /* This can not happend because we always calculate the number of bytes
                      * to receive. */
@@ -336,10 +338,16 @@ xMBTCPPortSendResponse( const UCHAR * pucMBTCPFrame, USHORT usTCPLength )
 void
 prvvMBPortReleaseClient(  )
 {
-    ( void )recv( xClientSocket, &aucTCPBuf[0], MB_TCP_BUF_SIZE, 0 );
+#if 0	// K.O. modification;
+    ( void )recv( xClientSocket, &aucTCPBuf[0], MB_TCP_BUF_SIZE, 0 ); // disabled so as not to stop the thread
+#endif
 
     ( void )close( xClientSocket );
     xClientSocket = INVALID_SOCKET;
+#if 0 // just for debugging; K.O. modification
+    printf("\r\nSocket closed (TCP server)\r\n\r\n");
+    fflush(stdout);
+#endif
 }
 
 BOOL

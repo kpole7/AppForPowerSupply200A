@@ -165,9 +165,6 @@ extern "C" {
 // This function initializes TCP socket and starts additional thread for the Modbus TCP slave
 char initializeModbusTcpSlave( void );
 
-// This function closes the open socket
-void closeModbusTcpSlave( void );
-
 #ifdef __cplusplus
 }
 #endif

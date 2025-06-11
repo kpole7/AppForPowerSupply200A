@@ -125,11 +125,6 @@ static void exitProcedure(void){
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
-	if (ActiveModbusTcpServer.load()){
-		closeModbusTcpSlave();
-		ActiveModbusTcpServer.store(false);
-	}
-
 #if 0
 	printf("\nKoniec programu\n");
 #endif

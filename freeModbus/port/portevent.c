@@ -47,7 +47,7 @@ xMBPortEventInit( void )
 BOOL
 xMBPortEventPost( eMBEventType eEvent )
 {
-	xEventInQueue = TRUE;
+    xEventInQueue = TRUE;
     eQueuedEvent = eEvent;
     return TRUE;
 }

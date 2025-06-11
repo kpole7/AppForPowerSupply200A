@@ -28,7 +28,6 @@
 // The file has been modified by K.O.
 // This module works in the following threads:
 // the peripheral thread: function initializeModbusTcpSlave
-// the main FLTK thread: function closeModbusTcpSlave
 // and in the TCP slave thread (pvPollingThread): other functions
 
 #include "modbusTcpSlave.h"
@@ -349,7 +348,3 @@ eMBRegHoldingCB( UCHAR * pucRegBuffer, USHORT usAddress, USHORT usNRegs, eMBRegi
     return MB_ENOREG;
 }
 
-// This function closes the open socket
-void closeModbusTcpSlave( void ){
-	( void )eMBClose();
-}
