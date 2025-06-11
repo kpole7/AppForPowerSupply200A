@@ -24,6 +24,7 @@
 #include "dataSharingInterface.h"
 #include "graphicalUserInterface.h"
 #include "modbusTcpMaster.h"
+#include "modbusTcpSlave.h"
 
 //.................................................................................................
 // Preprocessor directives
@@ -645,6 +646,17 @@ void synchronizeDataAcrossThreads(void){
         	pthread_mutex_unlock( &TcpSlaveMutexLock );
     	}
     }
+}
+
+void releaseMemoryOnTcpServerShutdown(void){
+    delete[] ChannelDescriptionPlainTextsPtr;
+}
+
+char getExitSignal(void){
+	if (ExitingFlag.load()){
+		return 1;
+	}
+	return 0;
 }
 
 //...............................................................................................

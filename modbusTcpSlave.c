@@ -160,10 +160,17 @@ static void* pvPollingThread( void *pvParameter )
     {
         do
         {
+        	if (0 != getExitSignal()){
+        		eSetPollingThreadState( SHUTDOWN );
+        	}
+
+
             if( eMBPoll(  ) != MB_ENOERR )
                 break;
         }
         while( eGetPollingThreadState(  ) != SHUTDOWN );
+
+        releaseMemoryOnTcpServerShutdown();
     }
 
     ( void )eMBDisable(  );

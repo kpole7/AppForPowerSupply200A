@@ -172,4 +172,13 @@ void closeModbusTcpSlave( void );
 }
 #endif
 
+#ifdef __cplusplus
+void releaseMemoryOnTcpServerShutdown(void);
+char getExitSignal(void);
+#else
+extern void releaseMemoryOnTcpServerShutdown(void);
+extern char getExitSignal(void);
+#endif
+
+
 #endif /* MODBUSTCPSLAVE_H_ */

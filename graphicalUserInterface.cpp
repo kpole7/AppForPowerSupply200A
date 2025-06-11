@@ -202,7 +202,7 @@ static int channelVerticalPosition( uint16_t ChannelIndex );
 //.................................................................................................
 
 void initializeMainWindowWidgets(void){
-
+	// Header texts
 	for (int J = 0; J < (int)(sizeof(ChannelsHeaderTexts)/sizeof(ChannelsHeaderTexts[0])); J++ ){
 	    ChannelsHeaderPtr[J] = new Fl_Box( ChannelsHeaderTextX[J], FIRST_GROUP_OF_WIDGETS_Y-ORDINARY_TEXT_SIZE/2, 40, 30, ChannelsHeaderTexts[J] );
 	    ChannelsHeaderPtr[J]->labelcolor( FL_BLACK );
@@ -211,10 +211,12 @@ void initializeMainWindowWidgets(void){
 	    ChannelsHeaderPtr[J]->labelsize( ORDINARY_TEXT_SIZE );
 	}
 
+	// Header lines
     HeaderLine1Ptr = new HorizontalLineWidget( 0, FIRST_GROUP_OF_WIDGETS_Y-30, MAIN_WINDOW_WIDTH, 1 );
     HeaderLine2Ptr = new HorizontalLineWidget( 0, FIRST_GROUP_OF_WIDGETS_Y-4, MAIN_WINDOW_WIDTH, 1 );
     HeaderLine3Ptr = new HorizontalLineWidget( 0, FIRST_GROUP_OF_WIDGETS_Y-1, MAIN_WINDOW_WIDTH, 1 );
 
+    // Error message (normally hidden)
     LargeErrorMessage = new Fl_Box(30, 200, MAIN_WINDOW_WIDTH-60, 200,
     		"Problem z plikiem konfiguracyjnym\nuruchom program w konsoli\nz parametrem -v");
     LargeErrorMessage->hide();
@@ -222,6 +224,7 @@ void initializeMainWindowWidgets(void){
     LargeErrorMessage->labelfont( FL_BOLD );
     LargeErrorMessage->labelsize( 30 );
 
+    // Small text about the mode of operation (local/remote)
     ComputerLabelPtr = new Fl_Box( 0, 0, 75, 4, TextOfComputerLabel[0] );
     ComputerLabelPtr->hide();
     ComputerLabelPtr->labelcolor( FL_DARK3 );
@@ -229,6 +232,7 @@ void initializeMainWindowWidgets(void){
     ComputerLabelPtr->labelfont( ORDINARY_TEXT_FONT );
     ComputerLabelPtr->labelsize( 10 );
 
+    // Switch button for mode of operation (local/remote)
     RemoteComputerControlButton = new Fl_Button(780, 5, 150, 43, TextOfRemoteComputerControlButton[0] );
     RemoteComputerControlButton->hide();
     RemoteComputerControlButton->box( BUTTON_BOX_SHAPE );
@@ -236,7 +240,6 @@ void initializeMainWindowWidgets(void){
     RemoteComputerControlButton->labelfont( ORDINARY_TEXT_FONT );
     RemoteComputerControlButton->labelsize( ORDINARY_TEXT_SIZE );
     RemoteComputerControlButton->callback(remoteComputerControlCallback, nullptr);
-
 }
 
 void initializeWidgetsOfChannels(void){
@@ -246,16 +249,17 @@ void initializeWidgetsOfChannels(void){
     DiagnosticsGroupPtr = new DiagnosticsGroup(0, 0, MAIN_WINDOW_WIDTH, 2*GROUPS_OF_WIDGETS_SPACING-1);
     DiagnosticsGroupPtr->hide();
 
+    // white rectangle is used to paint the area at the bottom of the window, if needed
     BlankRectanglePtr = new BlankRectangleWidget(0, 0, MAIN_WINDOW_WIDTH, 2*GROUPS_OF_WIDGETS_SPACING-1);
     BlankRectanglePtr->hide();
 
+    // widgets for maximal number of channels are created; widgets of unused channels are hidden
     for (int J = 0; J < MAX_NUMBER_OF_SERIAL_PORTS; J++) {
     	TableOfGroupsPtr[J] = new ChannelGuiGroup(0, channelVerticalPosition(J), MAIN_WINDOW_WIDTH, GROUPS_OF_WIDGETS_SPACING-1);
     	TableOfGroupsPtr[J]->hide();
     	ApplicationWindow->add( TableOfGroupsPtr[J] );
     	TableOfGroupsPtr[J]->setGroupID(J);
     }
-
 }
 
 void StateMarkWidget::draw(){
@@ -402,6 +406,10 @@ ChannelGuiGroup::ChannelGuiGroup(int X, int Y, int W, int H, const char* L) : Fl
 
     // Add widgets to group
     this->end();
+}
+
+ChannelGuiGroup::~ChannelGuiGroup() {
+    delete LastAcceptedValueStringPtr; // this is not a fltk widget
 }
 
 // This function sets the sequence number of a group of widgets that relates to one channel
@@ -762,6 +770,10 @@ SetPointInputGroup::SetPointInputGroup(int X, int Y, int W, int H, const char* L
 
     // Add widgets to group
     this->end();
+}
+
+SetPointInputGroup::~SetPointInputGroup() {
+    delete LastValidInputStringPtr; // this is not a fltk widget
 }
 
 void SetPointInputGroup::setChannelDisplayingSetPointEntryDialog( int16_t NewValue ){

@@ -119,14 +119,17 @@ static void onMainWindowCloseCallback(Fl_Widget *Widget, void *Data) {
 
 // Operations before closing the application
 static void exitProcedure(void){
+	ExitingFlag.store( true );
+
+	closeTcpClient(); // this function checks dependencies
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
 	if (ActiveModbusTcpServer.load()){
 		closeModbusTcpSlave();
 		ActiveModbusTcpServer.store(false);
 	}
-	ExitingFlag.store( true );
-	closeTcpClient(); // this function checks dependencies
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 #if 0
 	printf("\nKoniec programu\n");
 #endif

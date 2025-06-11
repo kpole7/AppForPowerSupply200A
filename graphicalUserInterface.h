@@ -105,6 +105,7 @@ private:
     uint8_t OldControlFromGuiHere;
 public:
     ChannelGuiGroup(int X, int Y, int W, int H, const char* L = nullptr);
+    ~ChannelGuiGroup();
     void setGroupID( int NewValue );
     int getGroupID();
     double getLastAcceptedNumericValue();
@@ -157,6 +158,7 @@ private:
 	// if MulticlickCounter != 0 then multi-click machine blocks reading from Modbus register with address MODBUS_ADDRES_REQUIRED_VALUE
 public:
 	SetPointInputGroup(int X, int Y, int W, int H, const char* L = nullptr);
+	~SetPointInputGroup();
 	void setChannelDisplayingSetPointEntryDialog( int16_t NewValue );
 	int16_t getChannelDisplayingSetPointEntryDialog();
 	void openDialog( int X, int Y );
