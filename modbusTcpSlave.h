@@ -173,8 +173,10 @@ void closeModbusTcpSlave( void );
 #endif
 
 #ifdef __cplusplus
+extern "C" {
 void releaseMemoryOnTcpServerShutdown(void);
 char getExitSignal(void);
+}
 #else
 extern void releaseMemoryOnTcpServerShutdown(void);
 extern char getExitSignal(void);
