@@ -1231,6 +1231,10 @@ static void diagnosticsButtonCallback(Fl_Widget* Widget, void* Data){
 	ChannelGuiGroup* MyGroup;
 	uint8_t IndexOfGroup;
 
+#if 0 // SIGSEGV handler test
+	IndexOfGroup = (uint8_t)TableOfSharedDataForGui[1000].getPerMilleError();
+#endif
+
 	(void)Data; // intentionally unused
 
 	MyGroup = (ChannelGuiGroup*)(Widget->parent());

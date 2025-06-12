@@ -2,12 +2,12 @@ CC	        = gcc
 CXX	        = g++
 OBJCOPY	    = objcopy
 
-CFLAGS	    =  -g -Wall -pthread -MMD -MP
+CFLAGS	    =  -g -rdynamic -Wall -pthread -MMD -MP
 CFLAGS      += -Iinclude -IfreeModbus/include -IfreeModbus/tcp -IfreeModbus/port
 
-CCFLAGS	    =  -g -Wall -Wextra -Iinclude -MMD -MP
+CCFLAGS	    =  -g -rdynamic -Wall -Wextra -Iinclude -MMD -MP
 
-LDFLAGS     =  -lfltk -lX11 -lpthread
+LDFLAGS     =  -g -rdynamic -lfltk -lX11 -lpthread
 
 BUILD_DIR       = build
 BUILD_SVEDB_DIR = build/Svedberg

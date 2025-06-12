@@ -23,6 +23,9 @@
 #include <limits.h>  // for PATH_MAX
 #include <libgen.h>  // for dirname
 #include <cstdlib>   // for realpath
+#include <csignal>
+#include <execinfo.h>
+#include <unistd.h>
 
 #include "multiChannel.h"
 #include "graphicalUserInterface.h"
@@ -49,6 +52,10 @@ WindowEscProof* ApplicationWindow;
 // Local function prototypes
 //.................................................................................................
 
+void criticalHandler(int sig);
+
+void setupCriticalSignalHandler();
+
 // Window close event is handled here
 static void onMainWindowCloseCallback(Fl_Widget *Widget, void *Data);
 
@@ -61,6 +68,7 @@ static int determineApplicationPath( char* Argv0 );
 //.................................................................................................
 
 int main(int argc, char** argv) {
+	setupCriticalSignalHandler();
 
 	VerboseMode = false;
 	ControlFromGuiHere.store(1);
@@ -107,6 +115,53 @@ int main(int argc, char** argv) {
 //.................................................................................................
 // Function definitions
 //.................................................................................................
+
+void criticalHandler(int sig) {
+    void* frames[100];
+    int num_frames = backtrace(frames, 100);
+
+    FILE* f = fopen("backtrace_psu_app.log", "a");
+    if (f) {
+        time_t now = time(NULL);
+        fprintf(f, "\n=== Backtrace (");
+        if (SIGSEGV == sig){
+        	fprintf(f, "signal SIGSEGV");
+        }
+        else if (SIGABRT == sig){
+        	fprintf(f, "signal SIGABRT");
+        }
+        else if (SIGFPE == sig){
+        	fprintf(f, "signal SIGFPE");
+        }
+        else if (SIGILL == sig){
+        	fprintf(f, "signal SIGILL");
+        }
+        else if (SIGBUS == sig){
+        	fprintf(f, "signal SIGBUS");
+        }
+        else{
+        	fprintf(f, "signal %d", sig);
+        }
+        fprintf(f, ") at %s\n", ctime(&now));
+        char** symbols = backtrace_symbols(frames, num_frames);
+        if (symbols) {
+            for (int i = 0; i < num_frames; ++i)
+                fprintf(f, "%s\n", symbols[i]);
+            free(symbols);
+        }
+        fclose(f);
+    }
+    signal(sig, SIG_DFL);
+    kill(getpid(), sig);
+}
+
+void setupCriticalSignalHandler() {
+	signal(SIGSEGV, criticalHandler);
+	signal(SIGABRT, criticalHandler);
+	signal(SIGFPE, criticalHandler);
+	signal(SIGILL, criticalHandler);
+	signal(SIGBUS, criticalHandler);
+}
 
 // Window close event is handled here
 static void onMainWindowCloseCallback(Fl_Widget *Widget, void *Data) {
