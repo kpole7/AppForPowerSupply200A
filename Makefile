@@ -2,10 +2,10 @@ CC	        = gcc
 CXX	        = g++
 OBJCOPY	    = objcopy
 
-CFLAGS	    =  -g -Wall -Wextra -I. -IfreeModbus/include -IfreeModbus/tcp -IfreeModbus/port
-CFLAGS      += -pthread -MMD -MP
+CFLAGS	    =  -g -Wall -Wextra -pthread -MMD -MP
+CFLAGS      += -Iinclude -IfreeModbus/include -IfreeModbus/tcp -IfreeModbus/port
 
-CCFLAGS	    =  -g -Wall -Wextra -I. -MMD -MP
+CCFLAGS	    =  -g -Wall -Wextra -Iinclude -MMD -MP
 
 LDFLAGS     =  -lfltk -lX11 -lpthread
 
