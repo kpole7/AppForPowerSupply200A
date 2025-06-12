@@ -12,7 +12,9 @@
 #include <FL/Fl_Float_Input.H>
 #include <FL/Fl_Text_Display.H>
 #include <FL/Fl_Box.H>
+
 #include "modbusRtuMaster.h"
+#include "protocolRstlMaster.h"
 
 //.................................................................................................
 // Preprocessor directives

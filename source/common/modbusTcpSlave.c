@@ -89,7 +89,7 @@ uint16_t ChannelDescriptionPlainTextsSize;
 // for instance:
 // const char TcpSlaveIdentifier[40] = "ID: git commit time 2025-05-13 15:25:52";
 //                                      1234567890123456789012345678901234567890
-#include "git_revision.cpp"
+#include "../../source/common/git_revision.cpp"
 
 // ----------------------- Static variables ---------------------------------
 static pthread_mutex_t xLock = PTHREAD_MUTEX_INITIALIZER;

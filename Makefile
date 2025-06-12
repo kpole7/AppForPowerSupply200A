@@ -1,18 +1,22 @@
-BUILD_DIR = build
-BIN = $(BUILD_DIR)/powerSource200A_Svedberg
-
 CC	        = gcc
 CXX	        = g++
 OBJCOPY	    = objcopy
 
-CFLAGS	    =  -g -Wall -I. -IfreeModbus/include -IfreeModbus/tcp -IfreeModbus/port
+CFLAGS	    =  -g -Wall -Wextra -I. -IfreeModbus/include -IfreeModbus/tcp -IfreeModbus/port
 CFLAGS      += -pthread -MMD -MP
 
 CCFLAGS	    =  -g -Wall -Wextra -I. -MMD -MP
 
 LDFLAGS     =  -lfltk -lX11 -lpthread
 
-CSRC        = modbusTcpSlave.c \
+BUILD_DIR       = build
+BUILD_SVEDB_DIR = build/Svedberg
+BUILD_RSTL_DIR  = build/RSTL
+
+BIN_SVEDB = $(BUILD_SVEDB_DIR)/powerSource200A_Svedberg
+BIN_RSTL = $(BUILD_RSTL_DIR)/powerSourceRSTL
+
+CSRC        = source/common/modbusTcpSlave.c \
               freeModbus/port/portother.c \
               freeModbus/port/portevent.c \
               freeModbus/port/porttcp.c \
@@ -26,42 +30,61 @@ CSRC        = modbusTcpSlave.c \
               freeModbus/functions/mbfuncdisc.c \
               freeModbus/functions/mbutils.c 
 
-CCSRC       = main.cpp \
-              modbusRtuMaster.cpp \
-              multiChannel.cpp \
-              dataSharingInterface.cpp \
-              graphicalUserInterface.cpp \
-              modbusTcpMaster.cpp \
-              git_revision.cpp
+CCSRC       = source/common/main.cpp \
+              source/common/multiChannel.cpp \
+              source/common/dataSharingInterface.cpp \
+              source/common/graphicalUserInterface.cpp \
+              source/common/modbusTcpMaster.cpp \
+              source/common/git_revision.cpp
 
-OBJS = $(addprefix $(BUILD_DIR)/, $(CCSRC:.cpp=.o) $(CSRC:.c=.o))
-DEPS = $(OBJS:.o=.d)
+CCSRC_SVEDB = $(CCSRC) source/svedbrg/modbusRtuMaster.cpp
+
+CCSRC_RSTL  = $(CCSRC) source/rstl/protocolRstlMaster.cpp
+
+OBJS_SVEDB = $(addprefix $(BUILD_SVEDB_DIR)/, $(CCSRC_SVEDB:.cpp=.o) $(CSRC:.c=.o))
+OBJS_RSTL  = $(addprefix $(BUILD_SVEDB_DIR)/, $(CCSRC_SVEDB:.cpp=.o) $(CSRC:.c=.o))
+DEPS_SVEDB = $(OBJS_SVEDB:.o=.d)
+DEPS_RSTL  = $(OBJS_RSTL:.o=.d)
 
 .PHONY: clean all
 
-all: git_revision.cpp $(BIN)
+all: git_revision.cpp $(BIN_SVEDB) $(BIN_RSTL)
 
 git_revision.cpp:
 	echo "// File generated automatically by make\nconst char TcpSlaveIdentifier[40] = \"ID: git commit time $$(git log -1 --format='%cd' --date=format:'%Y-%m-%d %H:%M:%S')\";" > git_revision.cpp
 
-$(BIN): $(OBJS)
-	$(CXX) -o $@ $(OBJS) $(LDFLAGS)
-	mkdir -p build/testing_RTU_master_TCP_master
-	mkdir -p build/testing_RTU_master_TCP_slave
-	cp $(BIN) build/testing_RTU_master_TCP_master/powerSource200A_Svedberg
-	cp $(BIN) build/testing_RTU_master_TCP_slave/powerSource200A_Svedberg
-	cp testing_RTU_master_TCP_master/powerSource200A_Svedberg.cfg build/testing_RTU_master_TCP_master/powerSource200A_Svedberg.cfg
-	cp testing_RTU_master_TCP_slave/powerSource200A_Svedberg.cfg build/testing_RTU_master_TCP_slave/powerSource200A_Svedberg.cfg
+$(BIN_SVEDB): $(OBJS_SVEDB)
+	$(CXX) -o $@ $(OBJS_SVEDB) $(LDFLAGS)
+#	mkdir -p build/testing_RTU_master_TCP_master
+#	mkdir -p build/testing_RTU_master_TCP_slave
+#	cp $(BIN) build/testing_RTU_master_TCP_master/powerSource200A_Svedberg
+#	cp $(BIN) build/testing_RTU_master_TCP_slave/powerSource200A_Svedberg
+#	cp testing_RTU_master_TCP_master/powerSource200A_Svedberg.cfg build/testing_RTU_master_TCP_master/powerSource200A_Svedberg.cfg
+#	cp testing_RTU_master_TCP_slave/powerSource200A_Svedberg.cfg build/testing_RTU_master_TCP_slave/powerSource200A_Svedberg.cfg
+
+$(BIN_RSTL): $(OBJS_RSTL)
+	$(CXX) -o $@ $(OBJS_RSTL) $(LDFLAGS)
 
 # ---------------------------------------------------------------------------
 # rules for code generation
 # ---------------------------------------------------------------------------
-$(BUILD_DIR)/%.o: %.cpp
+$(BUILD_SVEDB_DIR)/%.o: %.cpp
 	@mkdir -p $(BUILD_DIR)
-	$(CXX) $(CCFLAGS) -o $@ -c $<
+	@mkdir -p build/common
+	@mkdir -p build/svedberg
+	@mkdir -p build/rstl
+	$(CXX) $(CCFLAGS) -DPOWER_SOURCE_SVEDBERG -o $@ -c $<
+
+$(BUILD_RSTL_DIR)/%.o: %.cpp
+	@mkdir -p $(BUILD_DIR)
+	@mkdir -p build/common
+	@mkdir -p build/svedberg
+	@mkdir -p build/rstl
+	$(CXX) $(CCFLAGS) -DPOWER_SOURCE_RSTL -o $@ -c $<
 
 $(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(BUILD_DIR)
+	@mkdir -p build/common
 	@mkdir -p build/freeModbus
 	@mkdir -p build/freeModbus/ascii
 	@mkdir -p build/freeModbus/functions
@@ -73,9 +96,11 @@ $(BUILD_DIR)/%.o: %.c
 # ---------------------------------------------------------------------------
 #  # compiler generated dependencies
 # ---------------------------------------------------------------------------
--include $(DEPS)
+-include $(DEPS_SVEDB)
+
+-include $(DEPS_RSTL)
 
 clean:
 	rm -rf $(BUILD_DIR)
-	rm -f git_revision.cpp
+	rm -f source/common/git_revision.cpp
 

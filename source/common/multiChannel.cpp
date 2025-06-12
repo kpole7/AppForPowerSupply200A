@@ -19,7 +19,10 @@
 #include <math.h>
 #include <thread>
 #include <FL/Fl.H>
+
 #include "modbusRtuMaster.h"
+#include "protocolRstlMaster.h"
+
 #include "multiChannel.h"
 #include "dataSharingInterface.h"
 #include "graphicalUserInterface.h"

@@ -15,7 +15,7 @@
 #include <time.h>
 #include <ctype.h>
 #include <pthread.h>
-#include "modbusRtuMaster.h"
+#include "protocolRstlMaster.h"
 
 #include "dataSharingInterface.h"
 

@@ -1,0 +1,59 @@
+# Kompilator i flagi
+CXX := g++
+CXXFLAGS := -Wall -Wextra -Iinclude -std=c++17
+
+# Katalogi
+SRC_DIR := src
+INCLUDE_DIR := include
+BUILD_DIR := build
+BUILD_200A := $(BUILD_DIR)/psu200a
+BUILD_RSTL := $(BUILD_DIR)/rstl
+BIN_200A := $(BUILD_200A)/psu200a
+BIN_RSTL := $(BUILD_RSTL)/rstl
+
+# Pliki źródłowe wspólne
+COMMON_SRCS := $(filter-out $(SRC_DIR)/modbusRtuMaster.cpp $(SRC_DIR)/protocolRstlMaster.cpp, $(wildcard $(SRC_DIR)/*.cpp))
+
+# Pliki specyficzne dla wariantów
+SRCS_200A := $(COMMON_SRCS) $(SRC_DIR)/modbusRtuMaster.cpp
+SRCS_RSTL := $(COMMON_SRCS) $(SRC_DIR)/protocolRstlMaster.cpp
+
+# Zamiana rozszerzenia .cpp na .o w odpowiednich katalogach
+OBJS_200A := $(SRCS_200A:$(SRC_DIR)/%.cpp=$(BUILD_200A)/%.o)
+OBJS_RSTL := $(SRCS_RSTL:$(SRC_DIR)/%.cpp=$(BUILD_RSTL)/%.o)
+
+# Domyślny target
+all: psu200a rstl
+
+# Target PSU_TYPE_200A
+psu200a: $(BIN_200A)
+
+$(BIN_200A): $(OBJS_200A)
+	$(CXX) $(CXXFLAGS) -DPSU_TYPE_200A $^ -o $@
+
+# Target PSU_TYPE_RSTL
+rstl: $(BIN_RSTL)
+
+$(BIN_RSTL): $(OBJS_RSTL)
+	$(CXX) $(CXXFLAGS) -DPSU_TYPE_RSTL $^ -o $@
+
+# Reguły kompilacji do katalogów build
+$(BUILD_200A)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_200A)
+	$(CXX) $(CXXFLAGS) -DPSU_TYPE_200A -c $< -o $@
+
+$(BUILD_RSTL)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_RSTL)
+	$(CXX) $(CXXFLAGS) -DPSU_TYPE_RSTL -c $< -o $@
+
+# Tworzenie katalogów build
+$(BUILD_200A):
+	mkdir -p $@
+
+$(BUILD_RSTL):
+	mkdir -p $@
+
+# Sprzątanie
+clean:
+	rm -rf $(BUILD_DIR)
+
+.PHONY: all psu200a rstl clean
+

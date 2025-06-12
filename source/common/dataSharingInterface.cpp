@@ -6,7 +6,10 @@
 #include <pthread.h>
 #include <atomic>
 #include "dataSharingInterface.h"
+
 #include "modbusRtuMaster.h"
+#include "protocolRstlMaster.h"
+
 #include <iostream>
 
 //.................................................................................................

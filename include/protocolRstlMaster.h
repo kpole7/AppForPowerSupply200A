@@ -1,7 +1,9 @@
-// modbusRtuMaster.h
+// protocolRstlMaster.h
 
-#ifndef MODBUSRTUMASTER_H_
-#define MODBUSRTUMASTER_H_
+#ifndef PROTOCOLRSTLMASTER_H_
+#define PROTOCOLRSTLMASTER_H_
+
+#ifdef POWER_SOURCE_RSTL
 
 #include <string>
 #include <inttypes.h>
@@ -135,4 +137,6 @@ public:
 	friend uint8_t configurationFileParsing(void);
 };
 
-#endif // MODBUSRTUMASTER_H_
+#endif // POWER_SOURCE_RSTL
+
+#endif // PROTOCOLRSTLMASTER_H_
