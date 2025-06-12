@@ -2,7 +2,7 @@ CC	        = gcc
 CXX	        = g++
 OBJCOPY	    = objcopy
 
-CFLAGS	    =  -g -Wall -Wextra -pthread -MMD -MP
+CFLAGS	    =  -g -Wall -pthread -MMD -MP
 CFLAGS      += -Iinclude -IfreeModbus/include -IfreeModbus/tcp -IfreeModbus/port
 
 CCFLAGS	    =  -g -Wall -Wextra -Iinclude -MMD -MP
@@ -42,7 +42,7 @@ CCSRC_SVEDB = $(CCSRC) source/svedberg/modbusRtuMaster.cpp
 CCSRC_RSTL  = $(CCSRC) source/rstl/protocolRstlMaster.cpp
 
 OBJS_SVEDB = $(addprefix $(BUILD_SVEDB_DIR)/, $(CCSRC_SVEDB:.cpp=.o) $(CSRC:.c=.o))
-OBJS_RSTL  = $(addprefix $(BUILD_SVEDB_DIR)/, $(CCSRC_SVEDB:.cpp=.o) $(CSRC:.c=.o))
+OBJS_RSTL  = $(addprefix $(BUILD_RSTL_DIR)/, $(CCSRC_RSTL:.cpp=.o) $(CSRC:.c=.o))
 DEPS_SVEDB = $(OBJS_SVEDB:.o=.d)
 DEPS_RSTL  = $(OBJS_RSTL:.o=.d)
 

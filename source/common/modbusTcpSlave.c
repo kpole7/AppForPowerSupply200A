@@ -153,6 +153,8 @@ char initializeModbusTcpSlave( void ){
 // @brief This function is run as an additional thread (K.O. comment)
 static void* pvPollingThread( void *pvParameter )
 {
+	(void)pvParameter; // intentionally unused
+
     eSetPollingThreadState( RUNNING );
 
     if( eMBEnable(  ) == MB_ENOERR )
