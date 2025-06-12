@@ -13,8 +13,10 @@ BUILD_DIR       = build
 BUILD_SVEDB_DIR = build/Svedberg
 BUILD_RSTL_DIR  = build/RSTL
 
-BIN_SVEDB = $(BUILD_SVEDB_DIR)/powerSource200A_Svedberg
-BIN_RSTL = $(BUILD_RSTL_DIR)/powerSourceRSTL
+NAME_SVEDB  = powerSource200A_Svedberg
+NAME_RSTL   = powerSourceRSTL
+BIN_SVEDB   = $(BUILD_SVEDB_DIR)/$(NAME_SVEDB)
+BIN_RSTL    = $(BUILD_RSTL_DIR)/$(NAME_RSTL)
 
 CSRC        = source/common/modbusTcpSlave.c \
               freeModbus/port/portother.c \
@@ -52,15 +54,21 @@ all: $(BIN_SVEDB) $(BIN_RSTL)
 
 $(BIN_SVEDB): $(OBJS_SVEDB)
 	$(CXX) -o $@ $(OBJS_SVEDB) $(LDFLAGS)
-#	mkdir -p build/testing_RTU_master_TCP_master
-#	mkdir -p build/testing_RTU_master_TCP_slave
-#	cp $(BIN) build/testing_RTU_master_TCP_master/powerSource200A_Svedberg
-#	cp $(BIN) build/testing_RTU_master_TCP_slave/powerSource200A_Svedberg
-#	cp testing_RTU_master_TCP_master/powerSource200A_Svedberg.cfg build/testing_RTU_master_TCP_master/powerSource200A_Svedberg.cfg
-#	cp testing_RTU_master_TCP_slave/powerSource200A_Svedberg.cfg build/testing_RTU_master_TCP_slave/powerSource200A_Svedberg.cfg
+	mkdir -p $(BUILD_SVEDB_DIR)/testing_TCP_master
+	mkdir -p $(BUILD_SVEDB_DIR)/testing_TCP_slave
+	cp $(BIN_SVEDB) $(BUILD_SVEDB_DIR)/testing_TCP_master/$(NAME_SVEDB)
+	cp $(BIN_SVEDB) $(BUILD_SVEDB_DIR)/testing_TCP_slave/$(NAME_SVEDB)
+	cp testing/Svedberg/testing_TCP_master/$(NAME_SVEDB).cfg $(BUILD_SVEDB_DIR)/testing_TCP_master/$(NAME_SVEDB).cfg
+	cp testing/Svedberg/testing_TCP_slave/$(NAME_SVEDB).cfg  $(BUILD_SVEDB_DIR)/testing_TCP_slave/$(NAME_SVEDB).cfg
 
 $(BIN_RSTL): $(OBJS_RSTL)
 	$(CXX) -o $@ $(OBJS_RSTL) $(LDFLAGS)
+	mkdir -p $(BUILD_RSTL_DIR)/testing_TCP_master
+	mkdir -p $(BUILD_RSTL_DIR)/testing_TCP_slave
+	cp $(BIN_RSTL) $(BUILD_RSTL_DIR)/testing_TCP_master/$(NAME_RSTL)
+	cp $(BIN_RSTL) $(BUILD_RSTL_DIR)/testing_TCP_slave/$(NAME_RSTL)
+	cp testing/RSTL/testing_TCP_master/$(NAME_RSTL).cfg $(BUILD_RSTL_DIR)/testing_TCP_master/$(NAME_RSTL).cfg
+	cp testing/RSTL/testing_TCP_slave/$(NAME_RSTL).cfg  $(BUILD_RSTL_DIR)/testing_TCP_slave/$(NAME_RSTL).cfg
 
 # ---------------------------------------------------------------------------
 # rules for code generation
