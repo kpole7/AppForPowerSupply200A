@@ -37,7 +37,7 @@ CCSRC       = source/common/main.cpp \
               source/common/modbusTcpMaster.cpp \
               source/common/git_revision.cpp
 
-CCSRC_SVEDB = $(CCSRC) source/svedbrg/modbusRtuMaster.cpp
+CCSRC_SVEDB = $(CCSRC) source/svedberg/modbusRtuMaster.cpp
 
 CCSRC_RSTL  = $(CCSRC) source/rstl/protocolRstlMaster.cpp
 
@@ -48,10 +48,7 @@ DEPS_RSTL  = $(OBJS_RSTL:.o=.d)
 
 .PHONY: clean all
 
-all: git_revision.cpp $(BIN_SVEDB) $(BIN_RSTL)
-
-git_revision.cpp:
-	echo "// File generated automatically by make\nconst char TcpSlaveIdentifier[40] = \"ID: git commit time $$(git log -1 --format='%cd' --date=format:'%Y-%m-%d %H:%M:%S')\";" > git_revision.cpp
+all: $(BIN_SVEDB) $(BIN_RSTL)
 
 $(BIN_SVEDB): $(OBJS_SVEDB)
 	$(CXX) -o $@ $(OBJS_SVEDB) $(LDFLAGS)
@@ -68,30 +65,24 @@ $(BIN_RSTL): $(OBJS_RSTL)
 # ---------------------------------------------------------------------------
 # rules for code generation
 # ---------------------------------------------------------------------------
+source/common/git_revision.cpp:
+	echo "// File generated automatically by make\nconst char TcpSlaveIdentifier[40] = \"ID: git commit time $$(git log -1 --format='%cd' --date=format:'%Y-%m-%d %H:%M:%S')\";" > source/common/git_revision.cpp
+
 $(BUILD_SVEDB_DIR)/%.o: %.cpp
-	@mkdir -p $(BUILD_DIR)
-	@mkdir -p build/common
-	@mkdir -p build/svedberg
-	@mkdir -p build/rstl
+	mkdir -p $(dir $@)
 	$(CXX) $(CCFLAGS) -DPOWER_SOURCE_SVEDBERG -o $@ -c $<
 
 $(BUILD_RSTL_DIR)/%.o: %.cpp
-	@mkdir -p $(BUILD_DIR)
-	@mkdir -p build/common
-	@mkdir -p build/svedberg
-	@mkdir -p build/rstl
+	mkdir -p $(dir $@)
 	$(CXX) $(CCFLAGS) -DPOWER_SOURCE_RSTL -o $@ -c $<
 
-$(BUILD_DIR)/%.o: %.c
-	@mkdir -p $(BUILD_DIR)
-	@mkdir -p build/common
-	@mkdir -p build/freeModbus
-	@mkdir -p build/freeModbus/ascii
-	@mkdir -p build/freeModbus/functions
-	@mkdir -p build/freeModbus/port
-	@mkdir -p build/freeModbus/rtu
-	@mkdir -p build/freeModbus/tcp
-	$(CC) $(CFLAGS) -o $@ -c $<
+$(BUILD_SVEDB_DIR)/%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -DPOWER_SOURCE_SVEDBERG -o $@ -c $<
+
+$(BUILD_RSTL_DIR)/%.o: %.c
+	mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) -DPOWER_SOURCE_RSTL -o $@ -c $<
 
 # ---------------------------------------------------------------------------
 #  # compiler generated dependencies
